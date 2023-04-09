@@ -9,6 +9,7 @@ using UI;
 using UniRx;
 using UnityEngine;
 using Zenject;
+using Random = UnityEngine.Random;
 
 namespace Gameplay.ShootSystem.Presenters
 {
@@ -58,7 +59,7 @@ namespace Gameplay.ShootSystem.Presenters
             _shootModel.BulletAmount = config.BulletAmount;
             _shootModel.BulletPrefab = config.BulletPrefab;
             
-            _bobbingPresenter.SetSightShiftSpeed(config.SightShiftSpeed);
+            _bobbingPresenter.SetBobbingSmoothTime(config.BobbingSmoothTime);
             _bobbingPresenter.BobbingDeltaShift(config.BobbingDeltaShift);
         }
 
@@ -132,6 +133,12 @@ namespace Gameplay.ShootSystem.Presenters
             Debug.DrawRay(ray.origin, forward, Color.blue);
         }
 
+        private AudioClip GetRandomShotAudioClip()
+        {
+            var clips = _shootModel.WeaponConfig.ShotAudioClips;
+            return clips[Random.Range(0, clips.Count)];
+        }
+
         private void OnReleaseBullet()
         {
             if (_isBlockControl 
@@ -143,7 +150,7 @@ namespace Gameplay.ShootSystem.Presenters
             _shootModel.BulletAmount--;
             _gameUIController.HideLastBullet();
 
-            var clip = _shootModel.WeaponConfig.ShotAudioClip;
+            var clip = GetRandomShotAudioClip();
             _audioController.PlayClip(clip);
 
             if (!_shootModel.IsHit)

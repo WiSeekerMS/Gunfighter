@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Gameplay.ShootSystem.Configs
 {
@@ -10,21 +11,21 @@ namespace Gameplay.ShootSystem.Configs
         [SerializeField] private FlyingBullet _bulletPrefab;
         [SerializeField] private int _bulletAmount;
         [SerializeField] private int _bulletAmountPerShot;
-        [SerializeField] private float _sightShiftSpeed;
+        [SerializeField] private float _bobbingSmoothTime;
         [SerializeField] private float _bobbingDeltaShift;
         [SerializeField] private float _scoringRatio;
         [SerializeField] private float _bulletSpeed;
-        [SerializeField] private AudioClip _shotAudioClip;
+        [SerializeField] private List<AudioClip> _shotAudioClips;
 
         public Sprite Icon => _icon;
         public string WeaponName => _weaponName;
         public FlyingBullet BulletPrefab => _bulletPrefab;
         public int BulletAmount => _bulletAmount;
         public int BulletAmountPerShot => _bulletAmountPerShot;
-        public float SightShiftSpeed => _sightShiftSpeed;
+        public float BobbingSmoothTime => _bobbingSmoothTime;
         public float BobbingDeltaShift => _bobbingDeltaShift;
         public float ScoringRatio => _scoringRatio;
         public float BulletSpeed => _bulletSpeed;
-        public AudioClip ShotAudioClip => _shotAudioClip;
+        public List<AudioClip> ShotAudioClips => _shotAudioClips;
     }
 }

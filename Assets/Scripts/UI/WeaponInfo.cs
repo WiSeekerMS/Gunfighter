@@ -37,7 +37,7 @@ namespace UI
             _nameTMP.text = config.WeaponName;
             _bulletAmountTMP.text += $" {config.BulletAmount}";
             _amountPerShotTMP.text += $" {config.BulletAmountPerShot}";
-            _shiftSpeedTMP.text += $" {config.SightShiftSpeed}";
+            _shiftSpeedTMP.text += $" {config.BobbingSmoothTime}";
             _scoringRatioTMP.text += $" {config.ScoringRatio}";
             IsOn = isOn;
         }

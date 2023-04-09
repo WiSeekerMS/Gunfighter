@@ -24,9 +24,9 @@ namespace Gameplay.ShootSystem.Presenters
             _bobbingModel.DefaultPosition = position;
         }
 
-        public void SetSightShiftSpeed(float speed)
+        public void SetBobbingSmoothTime(float time)
         {
-            _bobbingModel.SightShiftSpeed = speed;
+            _bobbingModel.BobbingSmoothTime = time;
         }
 
         public void BobbingDeltaShift(float delta)
@@ -58,7 +58,7 @@ namespace Gameplay.ShootSystem.Presenters
                 z = _bobbingModel.DefaultPosition.z
             };
 
-            _signalBus.Fire(new ShootSignals.UpdateSwingPosition(_bobbingModel.SightShiftSpeed, targetPosition));
+            _signalBus.Fire(new ShootSignals.UpdateSwingPosition(_bobbingModel.BobbingSmoothTime, targetPosition));
         }
     }
 }

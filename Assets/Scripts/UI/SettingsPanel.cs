@@ -12,12 +12,8 @@ namespace UI
     public class SettingsPanel : PanelController
     {
         [SerializeField] private ScrollRect _weaponsSR;
-        [SerializeField] private ScrollRect _targetPointsSR;
-        [SerializeField] private Button _addPointsButton;
         [SerializeField] private Button _startButton;
-        private RectTransform _pointsContainer;
         private RectTransform _weaponsContainer;
-        private HorizontalLayoutGroup _pointsLayoutGroup;
         private HorizontalLayoutGroup _weaponsLayoutGroup;
         private MainConfig _mainConfig;
         private List<WeaponInfo> _weaponInfos;
@@ -30,25 +26,11 @@ namespace UI
             _mainConfig = mainConfig;
         }
 
-        private void Awake()
-        {
-            _addPointsButton.onClick.AddListener(OnClickAddPointsButton);
-        }
-
         private void Start()
         {
             _weaponsContainer = _weaponsSR.content;
             _weaponsLayoutGroup = _weaponsContainer.GetComponent<HorizontalLayoutGroup>();
-            
-            _pointsContainer = _targetPointsSR.content;
-            _pointsLayoutGroup = _pointsContainer.GetComponent<HorizontalLayoutGroup>();
- 
             FillWeaponsList();
-        }
-
-        private void OnDestroy()
-        {
-            _addPointsButton.onClick.RemoveAllListeners();
         }
 
         private void FillWeaponsList()
@@ -96,35 +78,6 @@ namespace UI
                     i.IsOn = false;
                     i.Toggle.onValueChanged.AddListener(_ => OnChangeToggleValue(i));
                 });
-        }
-
-        private void OnClickAddPointsButton()
-        {
-            var spacing = _pointsLayoutGroup != null 
-                ? _pointsLayoutGroup.spacing 
-                : 0f;
-            
-            var prefab = _mainConfig.PointsInfoPrefab;
-            var pointInfo = Instantiate(prefab, _pointsContainer);
-
-            var pointsInfoTransform = pointInfo.transform as RectTransform;
-            pointsInfoTransform.SetSiblingIndex(1);
-            
-            var offsetMax = _pointsContainer.offsetMax;
-            _pointsContainer.offsetMax = new Vector2
-            {
-                x = offsetMax.x + pointsInfoTransform.sizeDelta.x + spacing, 
-                y = offsetMax.y
-            };
-            
-            pointInfo.Init();
-        }
-        
-        public List<PointsInfo> CollectPointsInformation()
-        {
-            return _pointsContainer
-                .GetComponentsInChildren<PointsInfo>()
-                .ToList();
         }
 
         public WeaponConfig GetCurrentWeaponConfig()

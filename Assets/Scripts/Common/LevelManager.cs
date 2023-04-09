@@ -5,7 +5,6 @@ using Configs;
 using Gameplay.ShootSystem.Configs;
 using Gameplay.ShootSystem.Presenters;
 using Gameplay.ShootSystem.Signals;
-using Gameplay.Target;
 using UI;
 using UniRx;
 using UnityEngine;
@@ -19,7 +18,6 @@ namespace Common
         private MainConfig _mainConfig;
         private SettingsPanel _settingsPanel;
         private GameUIController _gameUIController;
-        private TargetCreator _targetCreator;
         private ShootPresenter _shootPresenter;
         private int _currentLevelIndex;
         private WeaponConfig _weaponConfig;
@@ -37,14 +35,12 @@ namespace Common
             MainConfig mainConfig,
             SettingsPanel settingsPanel,
             GameUIController gameUIController,
-            TargetCreator targetCreator, 
             ShootPresenter shootPresenter)
         {
             _signalBus = signalBus;
             _mainConfig = mainConfig;
             _settingsPanel = settingsPanel;
             _gameUIController = gameUIController;
-            _targetCreator = targetCreator;
             _shootPresenter = shootPresenter;
         }
 
@@ -78,18 +74,11 @@ namespace Common
         {
             _weaponConfig = _settingsPanel.GetCurrentWeaponConfig();
             _gameUIController.SetBulletAmount(_weaponConfig.BulletAmount);
-            
-            var pointsInfo = _settingsPanel.CollectPointsInformation();
-            var muzzlePosition = _shootPresenter.MuzzleWorldPosition;
-            
-            _targetCreator.Init(pointsInfo);
             var levelInfo = _levelConfigs.FirstOrDefault(i => i.LevelIndex == _currentLevelIndex);
 
             if (levelInfo != null)
             {
                 _gameUIController.SetLevelIndex = levelInfo.LevelIndex;
-                var targetPosition = new Vector3(0f, TargetYPosition, muzzlePosition.z + levelInfo.DistanceToTarget);
-                _targetCreator.CreateTarget(targetPosition);
             }
             
             _shootPresenter.Prepare(_weaponConfig);
@@ -143,12 +132,6 @@ namespace Common
             
             var levelInfo = _levelConfigs.FirstOrDefault(i => i.LevelIndex == _currentLevelIndex);
             if (levelInfo == null) return;
-            
-            var muzzlePosition = _shootPresenter.MuzzleWorldPosition;
-            var targetPosition = new Vector3(0f, TargetYPosition, muzzlePosition.z + levelInfo.DistanceToTarget);
-            
-            _targetCreator.SetTargetPosition(targetPosition);
-            _targetCreator.ResetTargetBlocks();
             
             _shootPresenter.ResetParams();
             _shootPresenter.UnlockPlayerControl();
