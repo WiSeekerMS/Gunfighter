@@ -11,17 +11,17 @@ namespace Gameplay.ShootSystem.Views
 
         private void Awake()
         {
-            _signalBus.Subscribe<ShootSignals.UpdateRotation>(OnUpdateRotation);
+            _signalBus.Subscribe<ShotSignals.UpdateRotation>(OnUpdateRotation);
         }
 
         private void OnDestroy()
         {
-            _signalBus.Unsubscribe<ShootSignals.UpdateRotation>(OnUpdateRotation);
+            _signalBus.Unsubscribe<ShotSignals.UpdateRotation>(OnUpdateRotation);
         }
 
-        private void OnUpdateRotation(ShootSignals.UpdateRotation signal)
+        private void OnUpdateRotation(ShotSignals.UpdateRotation signal)
         {
-            _bodyTransform.localRotation = Quaternion.Euler(signal.Euler);
+            _bodyTransform.rotation = Quaternion.Euler(signal.Euler);
         }
     }
 }

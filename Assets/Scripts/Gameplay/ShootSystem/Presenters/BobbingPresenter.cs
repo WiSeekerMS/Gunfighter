@@ -37,7 +37,7 @@ namespace Gameplay.ShootSystem.Presenters
         public void SetBobbingValue(bool value)
         {
             _bobbingModel.IsBobbing = value;
-            if (!value) _signalBus.Fire<ShootSignals.ResetSwingPosition>();
+            if (!value) _signalBus.Fire<ShotSignals.ResetSwingPosition>();
         }
 
         private float GetRandomValue()
@@ -58,7 +58,7 @@ namespace Gameplay.ShootSystem.Presenters
                 z = _bobbingModel.DefaultPosition.z
             };
 
-            _signalBus.Fire(new ShootSignals.UpdateSwingPosition(_bobbingModel.BobbingSmoothTime, targetPosition));
+            _signalBus.Fire(new ShotSignals.UpdateSwingPosition(_bobbingModel.BobbingSmoothTime, targetPosition));
         }
     }
 }

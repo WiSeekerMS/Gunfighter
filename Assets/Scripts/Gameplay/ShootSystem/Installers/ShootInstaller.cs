@@ -21,13 +21,13 @@ namespace Gameplay.ShootSystem.Installers
             Container.InstallModel<AimCameraModel>();
             Container.InstallModel<BobbingModel>();
 
-            Container.DeclareSignal<ShootSignals.HitTarget>();
-            Container.DeclareSignal<ShootSignals.UpdateRotation>();
-            Container.DeclareSignal<ShootSignals.UpdateAimCameraPosition>();
-            Container.DeclareSignal<ShootSignals.UpdateAimCameraFieldOfView>();
-            Container.DeclareSignal<ShootSignals.UpdateSwingPosition>();
-            Container.DeclareSignal<ShootSignals.AimingStatus>();
-            Container.DeclareSignal<ShootSignals.ResetSwingPosition>();
+            Container.DeclareSignal<ShotSignals.Hit>();
+            Container.DeclareSignal<ShotSignals.UpdateRotation>();
+            Container.DeclareSignal<ShotSignals.UpdateAimCameraPosition>();
+            Container.DeclareSignal<ShotSignals.UpdateAimCameraFieldOfView>();
+            Container.DeclareSignal<ShotSignals.UpdateSwingPosition>();
+            Container.DeclareSignal<ShotSignals.AimingStatus>();
+            Container.DeclareSignal<ShotSignals.ResetSwingPosition>();
             
             Container.InstallFactory<FlyingBullet, BulletFactory>();
         }

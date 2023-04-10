@@ -50,7 +50,7 @@ namespace Gameplay.ShootSystem.Presenters
         {
             _signalBus.Subscribe<InputSignals.Shot>(OnReleaseBullet);
             _signalBus.Subscribe<InputSignals.Reload>(OnReload);
-            _signalBus.Subscribe<ShootSignals.AimingStatus>(SetBobbingValue);
+            _signalBus.Subscribe<ShotSignals.AimingStatus>(SetBobbingValue);
         }
         
         public void Prepare(WeaponConfig config)
@@ -89,7 +89,7 @@ namespace Gameplay.ShootSystem.Presenters
             _fixedUpdateObservable?.Dispose();
             _signalBus.Unsubscribe<InputSignals.Shot>(OnReleaseBullet);
             _signalBus.Unsubscribe<InputSignals.Reload>(OnReload);
-            _signalBus.Unsubscribe<ShootSignals.AimingStatus>(SetBobbingValue);
+            _signalBus.Unsubscribe<ShotSignals.AimingStatus>(SetBobbingValue);
         }
 
         public void SetMuzzleTransform(Transform transform)
@@ -125,18 +125,11 @@ namespace Gameplay.ShootSystem.Presenters
         {
             var ray = new Ray(_shootModel.MuzzlePosition, _shootModel.MuzzleForward);
             _shootModel.IsHit = Physics.Raycast(ray, out var hitInfo, Mathf.Infinity);
+            _shootModel.HitInfo = hitInfo;
 
             if (!_shootModel.IsHit) return;
-            _shootModel.HitInfo = hitInfo;
-            
             var forward = _shootModel.MuzzleForward * hitInfo.distance;
             Debug.DrawRay(ray.origin, forward, Color.blue);
-        }
-
-        private AudioClip GetRandomShotAudioClip()
-        {
-            var clips = _shootModel.WeaponConfig.ShotAudioClips;
-            return clips[Random.Range(0, clips.Count)];
         }
 
         private void OnReleaseBullet()
@@ -149,19 +142,13 @@ namespace Gameplay.ShootSystem.Presenters
 
             _shootModel.BulletAmount--;
             _gameUIController.HideLastBullet();
+ 
+            var shotClips = _shootModel.WeaponConfig.ShotAudioClips;
+            _audioController.PlayRandomAudioClip(shotClips, Vector3.zero);
 
-            var clip = GetRandomShotAudioClip();
-            _audioController.PlayClip(clip);
-
-            if (!_shootModel.IsHit)
+            if (_shootModel.IsHit)
             {
-                return;
-            }
-            
-            var block = _shootModel.HitInfo.transform.GetComponent<IBuildingBlock>();
-            if (block != null && !block.Equals(null))
-            {
-                _signalBus.Fire(new ShootSignals.HitTarget(block));
+                _signalBus.Fire(new ShotSignals.Hit(_shootModel.HitInfo));
             }
         }
 
@@ -174,7 +161,7 @@ namespace Gameplay.ShootSystem.Presenters
             _shootModel.BulletAmount = _shootModel.WeaponConfig.BulletAmount;
         }
 
-        private void SetBobbingValue(ShootSignals.AimingStatus signal)
+        private void SetBobbingValue(ShotSignals.AimingStatus signal)
         {
             _bobbingPresenter.SetBobbingValue(signal.IsAiming);
         }

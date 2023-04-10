@@ -43,7 +43,7 @@ namespace Gameplay.ShootSystem.Presenters
             var valueX = _inputService.AxisXDelta * _playerConfig.MouseSensitivity * Time.deltaTime;
             var valueY = _inputService.AxisYDelta * _playerConfig.MouseSensitivity * Time.deltaTime;
             var euler = _mouseLookModel.GetRotation(valueX, valueY);
-            _signalBus.Fire(new ShootSignals.UpdateRotation(euler));
+            _signalBus.Fire(new ShotSignals.UpdateRotation(euler));
         }
     }
 }

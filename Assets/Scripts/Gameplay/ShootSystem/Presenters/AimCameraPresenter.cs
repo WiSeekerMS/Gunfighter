@@ -38,14 +38,14 @@ namespace Gameplay.ShootSystem.Presenters
                 ? _aimCameraModel.AimingPosition 
                 : _aimCameraModel.OriginalPosition;
             
-            _signalBus.Fire(new ShootSignals.UpdateAimCameraPosition(cameraPosition));
+            _signalBus.Fire(new ShotSignals.UpdateAimCameraPosition(cameraPosition));
             
             var fieldOfView = _aimCameraModel.IsAim 
                 ? _playerConfig.FieldOfViewAiming 
                 : _playerConfig.FieldOfView;
             
-            _signalBus.Fire(new ShootSignals.UpdateAimCameraFieldOfView(fieldOfView));
-            _signalBus.Fire(new ShootSignals.AimingStatus(_aimCameraModel.IsAim));
+            _signalBus.Fire(new ShotSignals.UpdateAimCameraFieldOfView(fieldOfView));
+            _signalBus.Fire(new ShotSignals.AimingStatus(_aimCameraModel.IsAim));
         }
     }
 }

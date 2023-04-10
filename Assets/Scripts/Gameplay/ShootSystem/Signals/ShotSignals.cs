@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Gameplay.ShootSystem.Signals
 {
-    public static class ShootSignals
+    public static class ShotSignals
     {
-        public sealed class HitTarget
+        public sealed class Hit
         {
-            public IBuildingBlock Block { get; }
-            public HitTarget(IBuildingBlock block)
+            public RaycastHit HitInfo { get; }
+            public Hit(RaycastHit hitInfo)
             {
-                Block = block;
+                HitInfo = hitInfo;
             }
         }
-        
+
         public sealed class UpdateRotation
         {
             public Vector3 Euler { get; }

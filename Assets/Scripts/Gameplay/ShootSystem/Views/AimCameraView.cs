@@ -28,8 +28,8 @@ namespace Gameplay.ShootSystem.Views
 
         private void Awake()
         {
-            _signalBus.Subscribe<ShootSignals.UpdateAimCameraPosition>(OnUpdateCameraPosition);
-            _signalBus.Subscribe<ShootSignals.UpdateAimCameraFieldOfView>(OnUpdateCameraFieldOfView);
+            _signalBus.Subscribe<ShotSignals.UpdateAimCameraPosition>(OnUpdateCameraPosition);
+            _signalBus.Subscribe<ShotSignals.UpdateAimCameraFieldOfView>(OnUpdateCameraFieldOfView);
         }
 
         private void Start()
@@ -42,17 +42,17 @@ namespace Gameplay.ShootSystem.Views
 
         private void OnDestroy()
         {
-            _signalBus.Unsubscribe<ShootSignals.UpdateAimCameraPosition>(OnUpdateCameraPosition);
-            _signalBus.Unsubscribe<ShootSignals.UpdateAimCameraFieldOfView>(OnUpdateCameraFieldOfView);
+            _signalBus.Unsubscribe<ShotSignals.UpdateAimCameraPosition>(OnUpdateCameraPosition);
+            _signalBus.Unsubscribe<ShotSignals.UpdateAimCameraFieldOfView>(OnUpdateCameraFieldOfView);
         }
 
-        private void OnUpdateCameraPosition(ShootSignals.UpdateAimCameraPosition signal)
+        private void OnUpdateCameraPosition(ShotSignals.UpdateAimCameraPosition signal)
         {
             _cameraTransform.localPosition = Vector3.Lerp(_cameraTransform.localPosition, 
                 signal.Position, _playerConfig.AimingSpeed * Time.deltaTime);
         }
 
-        private void OnUpdateCameraFieldOfView(ShootSignals.UpdateAimCameraFieldOfView signal)
+        private void OnUpdateCameraFieldOfView(ShotSignals.UpdateAimCameraFieldOfView signal)
         {
             _playerCamera.fieldOfView = Mathf.Lerp(_playerCamera.fieldOfView, 
                 signal.FieldOfView, _playerConfig.ViewFieldShiftSpeed * Time.deltaTime);

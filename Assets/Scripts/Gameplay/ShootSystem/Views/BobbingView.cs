@@ -16,14 +16,14 @@ namespace Gameplay.ShootSystem.Views
         {
             _defaultPosition = transform.localPosition;
             _bobbingPresenter.SetDefaultPosition(_defaultPosition);
-            _signalBus.Subscribe<ShootSignals.UpdateSwingPosition>(OnUpdateSwingPosition);
-            _signalBus.Subscribe<ShootSignals.ResetSwingPosition>(ResetPosition);
+            _signalBus.Subscribe<ShotSignals.UpdateSwingPosition>(OnUpdateSwingPosition);
+            _signalBus.Subscribe<ShotSignals.ResetSwingPosition>(ResetPosition);
         }
 
         private void OnDestroy()
         {
-            _signalBus.Unsubscribe<ShootSignals.UpdateSwingPosition>(OnUpdateSwingPosition);
-            _signalBus.Unsubscribe<ShootSignals.ResetSwingPosition>(ResetPosition);
+            _signalBus.Unsubscribe<ShotSignals.UpdateSwingPosition>(OnUpdateSwingPosition);
+            _signalBus.Unsubscribe<ShotSignals.ResetSwingPosition>(ResetPosition);
         }
 
         private void ResetPosition()
@@ -31,7 +31,7 @@ namespace Gameplay.ShootSystem.Views
             transform.localPosition = _defaultPosition;
         }
 
-        private void OnUpdateSwingPosition(ShootSignals.UpdateSwingPosition signal)
+        private void OnUpdateSwingPosition(ShotSignals.UpdateSwingPosition signal)
         {
             transform.localPosition = Vector3.SmoothDamp(transform.localPosition, 
                 signal.TargetPosition, ref _velocity, signal.SightShiftSpeed);

@@ -50,8 +50,7 @@ namespace Common
                 .StartButton
                 .onClick
                 .AddListener(OnClickStartButton);
-
-            _signalBus.Subscribe<ShootSignals.HitTarget>(OnHitTarget);
+            
             _levelConfigs = _mainConfig.LevelConfigs;
         }
 
@@ -66,8 +65,6 @@ namespace Common
                     .onClick
                     .RemoveListener(OnClickStartButton);
             }
-            
-            _signalBus.Unsubscribe<ShootSignals.HitTarget>(OnHitTarget);
         }
 
         private void OnClickStartButton()
@@ -87,7 +84,7 @@ namespace Common
             _settingsPanel.IsVisible = false;
         }
 
-        private void OnHitTarget(ShootSignals.HitTarget signal)
+        /*private void OnHitTarget(ShotSignals.HitTarget signal)
         {
             if (_isCheckComplete) return;
             _isCheckComplete = true;
@@ -97,7 +94,7 @@ namespace Common
             _gameUIController.UpdateScore(value);
             
             CheckLevelComplete();
-        }
+        }*/
 
         private void CheckLevelComplete()
         {
