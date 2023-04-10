@@ -23,9 +23,9 @@ namespace Common.Base
             OnStartLevel();
         }
 
-        private void GoToNextLevel()
+        private void FinishLevel()
         {
-            OnGoToNextLevel();
+            OnFinishLevel();
         }
         
         protected void UnlockPlayerControl()
@@ -41,7 +41,7 @@ namespace Common.Base
         {
         }
 
-        protected virtual void OnGoToNextLevel()
+        protected virtual void OnFinishLevel()
         {
         }
         

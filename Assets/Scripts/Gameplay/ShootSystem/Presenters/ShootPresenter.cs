@@ -25,8 +25,6 @@ namespace Gameplay.ShootSystem.Presenters
         private IDisposable _updateObservable;
         private IDisposable _fixedUpdateObservable;
         private bool _isBlockControl = true;
-        
-        public Vector3 MuzzleWorldPosition => _shootModel.MuzzlePosition;
 
         public ShootPresenter(
             SignalBus signalBus,

@@ -8,7 +8,7 @@ namespace Levels
         {
         }
 
-        protected override void OnGoToNextLevel()
+        protected override void OnFinishLevel()
         {
         }
     }
