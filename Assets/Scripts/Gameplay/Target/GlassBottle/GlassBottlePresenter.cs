@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Common.Audio;
 using Gameplay.ShootSystem.Signals;
 using Gameplay.Target.GlassBottle.View;
@@ -9,8 +10,8 @@ namespace Gameplay.Target.GlassBottle
 {
     public class GlassBottlePresenter : MonoBehaviour
     {
-        [SerializeField] private List<GlassBottleView> _glassBottles;
         [SerializeField] private List<AudioClip> _clips;
+        private List<GlassBottleView> _glassBottles;
         [Inject] private SignalBus _signalBus;
         [Inject] private AudioController _audioController;
 
@@ -19,10 +20,16 @@ namespace Gameplay.Target.GlassBottle
             _signalBus.Subscribe<ShotSignals.Hit>(OnHit);
         }
 
+        private void Start()
+        {
+            _glassBottles = FindObjectsOfType<GlassBottleView>().ToList();
+        }
+
         private void OnDestroy()
         {
             _signalBus.Unsubscribe<ShotSignals.Hit>(OnHit);
         }
+        
         private void OnHit(ShotSignals.Hit signal)
         {
             var component = signal.HitInfo.transform.GetComponent<GlassBottleView>();

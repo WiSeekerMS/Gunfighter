@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Gameplay.ShootSystem.Views
 {
@@ -7,10 +6,12 @@ namespace Gameplay.ShootSystem.Views
     {
         [SerializeField] private Transform _drumTransform;
         [SerializeField] private float _rotateAngle;
+        private Vector3 _euler;
 
         public void RotateDrum()
         {
-            _drumTransform.rotation *= Quaternion.Euler(Vector3.forward * _rotateAngle);
+            _euler += Vector3.forward * _rotateAngle;
+            _drumTransform.localRotation = Quaternion.Euler(_euler);
         }
 
         private void Update()
