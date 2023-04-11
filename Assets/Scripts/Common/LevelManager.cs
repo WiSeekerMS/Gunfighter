@@ -18,7 +18,7 @@ namespace Common
         private MainConfig _mainConfig;
         private SettingsPanel _settingsPanel;
         private GameUIController _gameUIController;
-        private ShootPresenter _shootPresenter;
+        private ShotPresenter _shotPresenter;
         private int _currentLevelIndex;
         private bool _isCheckComplete;
 
@@ -30,12 +30,12 @@ namespace Common
             MainConfig mainConfig,
             SettingsPanel settingsPanel,
             GameUIController gameUIController,
-            ShootPresenter shootPresenter)
+            ShotPresenter shotPresenter)
         {
             _mainConfig = mainConfig;
             _settingsPanel = settingsPanel;
             _gameUIController = gameUIController;
-            _shootPresenter = shootPresenter;
+            _shotPresenter = shotPresenter;
         }
 
         private void Awake()
@@ -77,8 +77,8 @@ namespace Common
                 _gameUIController.SetLevelIndex = levelInfo.LevelIndex;
             }
             
-            _shootPresenter.Prepare(_weaponConfig);
-            _shootPresenter.UnlockPlayerControl();
+            _shotPresenter.Prepare(_weaponConfig);
+            _shotPresenter.UnlockPlayerControl();
             
             _settingsPanel.IsVisible = false;
         }
@@ -89,7 +89,7 @@ namespace Common
             if (levelInfo && levelInfo.PointsToComplete <= _gameUIController.CurrentScore)
             {
                 _timerObservable?.Dispose();
-                _shootPresenter.BlockPlayerControl();
+                _shotPresenter.BlockPlayerControl();
                 
                 if (++_currentLevelIndex < _levelConfigs.Count)
                 {
@@ -117,8 +117,8 @@ namespace Common
             var levelInfo = _levelConfigs.FirstOrDefault(i => i.LevelIndex == _currentLevelIndex);
             if (levelInfo == null) return;
             
-            _shootPresenter.ResetParams();
-            _shootPresenter.UnlockPlayerControl();
+            _shotPresenter.ResetParams();
+            _shotPresenter.UnlockPlayerControl();
 
             _isCheckComplete = false;
         }
