@@ -3,13 +3,12 @@ using Common.Audio;
 using Common.InputSystem.Signals;
 using Gameplay.ShootSystem.Configs;
 using Gameplay.ShootSystem.Models;
-using Gameplay.ShootSystem.Signals;
-using Gameplay.Target;
+using Gameplay.ShotSystem.Presenters;
+using Gameplay.ShotSystem.Signals;
 using UI;
 using UniRx;
 using UnityEngine;
 using Zenject;
-using Random = UnityEngine.Random;
 
 namespace Gameplay.ShootSystem.Presenters
 {
@@ -25,6 +24,7 @@ namespace Gameplay.ShootSystem.Presenters
         private IDisposable _updateObservable;
         private IDisposable _fixedUpdateObservable;
         private bool _isBlockControl = true;
+        private bool _isBlockShot;
 
         public ShotPresenter(
             SignalBus signalBus,
@@ -132,7 +132,12 @@ namespace Gameplay.ShootSystem.Presenters
 
         private void OnReleaseBullet()
         {
-            if (_isBlockControl 
+            if (_isBlockShot)
+            {
+                return;
+            }
+            
+            if (_isBlockControl
                 || _shootModel.BulletAmount <= 0)
             {
                 var noAmoClips = _shootModel.WeaponConfig.NoAmoClips;
@@ -157,10 +162,17 @@ namespace Gameplay.ShootSystem.Presenters
         {
             if (_shootModel.BulletAmount >= _shootModel.WeaponConfig.BulletAmount) 
                 return;
-            
-            _audioController.PlayClip(_shootModel.WeaponConfig.RechargeClip, Vector3.zero);
-            _gameUIController.ShowAllBullets();
-            _shootModel.BulletAmount = _shootModel.WeaponConfig.BulletAmount;
+
+            _isBlockShot = true;
+            _audioController.PlayClip(
+                _shootModel.WeaponConfig.RechargeClip, 
+                Vector3.zero, 
+                () =>
+                {
+                    _gameUIController.ShowAllBullets();
+                    _shootModel.BulletAmount = _shootModel.WeaponConfig.BulletAmount;
+                    _isBlockShot = false;
+                });
         }
 
         private void SetBobbingValue(ShotSignals.AimingStatus signal)

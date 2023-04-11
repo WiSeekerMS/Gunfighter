@@ -1,13 +1,15 @@
 ﻿using Common.Extensions;
+using Gameplay.ShootSystem;
 using Gameplay.ShootSystem.Factories;
 using Gameplay.ShootSystem.Models;
 using Gameplay.ShootSystem.Presenters;
-using Gameplay.ShootSystem.Signals;
+using Gameplay.ShotSystem.Presenters;
+using Gameplay.ShotSystem.Signals;
 using Zenject;
 
-namespace Gameplay.ShootSystem.Installers
+namespace Gameplay.ShotSystem.Installers
 {
-    public class ShootInstaller : Installer
+    public class ShotInstaller : Installer
     {
         public override void InstallBindings()
         {
@@ -23,13 +25,8 @@ namespace Gameplay.ShootSystem.Installers
 
             Container.DeclareSignal<ShotSignals.Shot>();
             Container.DeclareSignal<ShotSignals.Hit>();
-            Container.DeclareSignal<ShotSignals.UpdateRotation>();
-            Container.DeclareSignal<ShotSignals.UpdateAimCameraPosition>();
-            Container.DeclareSignal<ShotSignals.UpdateAimCameraFieldOfView>();
-            Container.DeclareSignal<ShotSignals.UpdateSwingPosition>();
             Container.DeclareSignal<ShotSignals.AimingStatus>();
-            Container.DeclareSignal<ShotSignals.ResetSwingPosition>();
-            
+
             Container.InstallFactory<FlyingBullet, BulletFactory>();
         }
     }

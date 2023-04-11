@@ -1,7 +1,7 @@
 ﻿using Common.InputSystem.Services;
 using Configs;
 using Gameplay.ShootSystem.Models;
-using Gameplay.ShootSystem.Signals;
+using Gameplay.ShotSystem.Views;
 using UnityEngine;
 using Zenject;
 
@@ -13,16 +13,19 @@ namespace Gameplay.ShootSystem.Presenters
         private readonly PlayerConfig _playerConfig;
         private readonly MouseLookModel _mouseLookModel;
         private readonly SignalBus _signalBus;
+        private readonly MouseLookView _mouseLookView;
 
         public MouseLookPresenter(
             InputService inputService, 
             PlayerConfig playerConfig,
             MouseLookModel mouseLookModel,
+            MouseLookView mouseLookView,
             SignalBus signalBus)
         {
             _inputService = inputService;
             _playerConfig = playerConfig;
             _mouseLookModel = mouseLookModel;
+            _mouseLookView = mouseLookView;
             _signalBus = signalBus;
         }
 
@@ -43,7 +46,7 @@ namespace Gameplay.ShootSystem.Presenters
             var valueX = _inputService.AxisXDelta * _playerConfig.MouseSensitivity * Time.deltaTime;
             var valueY = _inputService.AxisYDelta * _playerConfig.MouseSensitivity * Time.deltaTime;
             var euler = _mouseLookModel.GetRotation(valueX, valueY);
-            _signalBus.Fire(new ShotSignals.UpdateRotation(euler));
+           _mouseLookView.UpdateRotation(euler);
         }
     }
 }

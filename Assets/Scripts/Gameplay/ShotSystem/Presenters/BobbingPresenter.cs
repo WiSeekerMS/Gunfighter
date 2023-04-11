@@ -1,27 +1,31 @@
 ﻿using Gameplay.ShootSystem.Models;
-using Gameplay.ShootSystem.Signals;
+using Gameplay.ShotSystem.Views;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
 
-namespace Gameplay.ShootSystem.Presenters
+namespace Gameplay.ShotSystem.Presenters
 {
-    public class BobbingPresenter
+    public class BobbingPresenter : IInitializable
     {
         private readonly BobbingModel _bobbingModel;
         private readonly SignalBus _signalBus;
+        private readonly BobbingView _bobbingView;
 
         public BobbingPresenter(
             SignalBus signalBus,
-            BobbingModel bobbingModel)
+            BobbingModel bobbingModel,
+            BobbingView bobbingView)
         {
             _signalBus = signalBus;
             _bobbingModel = bobbingModel;
+            _bobbingView = bobbingView;
         }
 
-        public void SetDefaultPosition(Vector3 position)
+        public void Initialize()
         {
-            _bobbingModel.DefaultPosition = position;
+            _bobbingView.Init();
+            _bobbingModel.DefaultPosition = _bobbingView.DefaultPosition;
         }
 
         public void SetBobbingSmoothTime(float time)
@@ -37,7 +41,7 @@ namespace Gameplay.ShootSystem.Presenters
         public void SetBobbingValue(bool value)
         {
             _bobbingModel.IsBobbing = value;
-            if (!value) _signalBus.Fire<ShotSignals.ResetSwingPosition>();
+            if (!value) _bobbingView.ResetPosition();
         }
 
         private float GetRandomValue()
@@ -58,7 +62,7 @@ namespace Gameplay.ShootSystem.Presenters
                 z = _bobbingModel.DefaultPosition.z
             };
 
-            _signalBus.Fire(new ShotSignals.UpdateSwingPosition(_bobbingModel.BobbingSmoothTime, targetPosition));
+            _bobbingView.UpdateSwingPosition(targetPosition, _bobbingModel.BobbingSmoothTime);
         }
     }
 }

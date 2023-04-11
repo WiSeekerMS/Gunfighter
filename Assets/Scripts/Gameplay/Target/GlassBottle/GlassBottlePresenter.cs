@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Common.Audio;
-using Gameplay.ShootSystem.Signals;
+using Gameplay.ShotSystem.Signals;
 using Gameplay.Target.GlassBottle.View;
 using UnityEngine;
 using Zenject;

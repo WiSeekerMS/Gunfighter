@@ -1,35 +1,35 @@
 ﻿using Configs;
 using Gameplay.ShootSystem.Models;
-using Gameplay.ShootSystem.Signals;
-using UnityEngine;
+using Gameplay.ShotSystem.Signals;
+using Gameplay.ShotSystem.Views;
 using Zenject;
 
-namespace Gameplay.ShootSystem.Presenters
+namespace Gameplay.ShotSystem.Presenters
 {
-    public class AimCameraPresenter
+    public class AimCameraPresenter : IInitializable
     {
         private readonly AimCameraModel _aimCameraModel;
         private readonly PlayerConfig _playerConfig;
         private readonly SignalBus _signalBus;
+        private readonly AimCameraView _aimCameraView;
 
         public AimCameraPresenter(
             SignalBus signalBus,
-            AimCameraModel aimCameraModel, 
+            AimCameraModel aimCameraModel,
+            AimCameraView aimCameraView,
             PlayerConfig playerConfig)
         {
             _signalBus = signalBus;
             _aimCameraModel = aimCameraModel;
+            _aimCameraView = aimCameraView;
             _playerConfig = playerConfig;
         }
-
-        public void SetCameraOriginalPosition(Vector3 position)
-        {
-            _aimCameraModel.OriginalPosition = position;
-        }
         
-        public void SetCameraAimingPosition(Vector3 position)
+        public void Initialize()
         {
-            _aimCameraModel.AimingPosition = position;
+            _aimCameraView.Init();
+            _aimCameraModel.OriginalPosition = _aimCameraView.OriginalPosition;
+            _aimCameraModel.AimingPosition = _aimCameraView.AimingPosition;
         }
 
         public void OnUpdate()
@@ -38,13 +38,13 @@ namespace Gameplay.ShootSystem.Presenters
                 ? _aimCameraModel.AimingPosition 
                 : _aimCameraModel.OriginalPosition;
             
-            _signalBus.Fire(new ShotSignals.UpdateAimCameraPosition(cameraPosition));
+            _aimCameraView.UpdateWeaponPosition(cameraPosition);
             
             var fieldOfView = _aimCameraModel.IsAim 
                 ? _playerConfig.FieldOfViewAiming 
                 : _playerConfig.FieldOfView;
             
-            _signalBus.Fire(new ShotSignals.UpdateAimCameraFieldOfView(fieldOfView));
+            _aimCameraView.UpdateCameraFieldOfView(fieldOfView);
             _signalBus.Fire(new ShotSignals.AimingStatus(_aimCameraModel.IsAim));
         }
     }

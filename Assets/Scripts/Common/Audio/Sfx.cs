@@ -1,4 +1,5 @@
-﻿using UniRx;
+﻿using System;
+using UniRx;
 using UnityEngine;
 
 namespace Common.Audio
@@ -7,9 +8,11 @@ namespace Common.Audio
     {
         [SerializeField] 
         private AudioSource _audioSource;
+        private Action _onStopAction;
 
-        public void Init(AudioClip clip)
+        public void Init(AudioClip clip, Action action)
         {
+            _onStopAction = action;
             _audioSource.PlayOneShot(clip);
             
             Observable
@@ -21,6 +24,7 @@ namespace Common.Audio
 
         private void OnStopAudioClip()
         {
+            _onStopAction?.Invoke();
             Destroy(gameObject);
         }
     }

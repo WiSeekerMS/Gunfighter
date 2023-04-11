@@ -1,5 +1,5 @@
 ﻿using Common.InputSystem.Installers;
-using Gameplay.ShootSystem.Installers;
+using Gameplay.ShotSystem.Installers;
 using Zenject;
 
 namespace Bootstrap
@@ -11,7 +11,7 @@ namespace Bootstrap
             SignalBusInstaller.Install(Container);
             
             Container.Install<InputInstaller>();
-            Container.Install<ShootInstaller>();
+            Container.Install<ShotInstaller>();
         }
     }
 }

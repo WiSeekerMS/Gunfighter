@@ -1,40 +1,27 @@
-﻿using Gameplay.ShootSystem.Presenters;
-using Gameplay.ShootSystem.Signals;
-using UnityEngine;
-using Zenject;
+﻿using UnityEngine;
 
-namespace Gameplay.ShootSystem.Views
+namespace Gameplay.ShotSystem.Views
 {
     public class BobbingView : MonoBehaviour
     {
-        [Inject] private SignalBus _signalBus;
-        [Inject] private BobbingPresenter _bobbingPresenter;
         private Vector3 _velocity = Vector3.zero;
-        private Vector3 _defaultPosition;
+        
+        public Vector3 DefaultPosition { get; private set; }
 
-        private void Awake()
+        public void Init()
         {
-            _defaultPosition = transform.localPosition;
-            _bobbingPresenter.SetDefaultPosition(_defaultPosition);
-            _signalBus.Subscribe<ShotSignals.UpdateSwingPosition>(OnUpdateSwingPosition);
-            _signalBus.Subscribe<ShotSignals.ResetSwingPosition>(ResetPosition);
+            DefaultPosition = transform.localPosition;
         }
 
-        private void OnDestroy()
+        public void ResetPosition()
         {
-            _signalBus.Unsubscribe<ShotSignals.UpdateSwingPosition>(OnUpdateSwingPosition);
-            _signalBus.Unsubscribe<ShotSignals.ResetSwingPosition>(ResetPosition);
+            transform.localPosition = DefaultPosition;
         }
 
-        private void ResetPosition()
-        {
-            transform.localPosition = _defaultPosition;
-        }
-
-        private void OnUpdateSwingPosition(ShotSignals.UpdateSwingPosition signal)
+        public void UpdateSwingPosition(Vector3 targetPosition, float sightShiftSpeed)
         {
             transform.localPosition = Vector3.SmoothDamp(transform.localPosition, 
-                signal.TargetPosition, ref _velocity, signal.SightShiftSpeed);
+                targetPosition, ref _velocity, sightShiftSpeed);
         }
     }
 }

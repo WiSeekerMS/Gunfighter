@@ -1,27 +1,14 @@
-﻿using Gameplay.ShootSystem.Signals;
-using UnityEngine;
-using Zenject;
+﻿using UnityEngine;
 
-namespace Gameplay.ShootSystem.Views
+namespace Gameplay.ShotSystem.Views
 {
     public class MouseLookView : MonoBehaviour
     {
         [SerializeField] private Transform _bodyTransform;
-        [Inject] private SignalBus _signalBus;
 
-        private void Awake()
+        public void UpdateRotation(Vector3 euler)
         {
-            _signalBus.Subscribe<ShotSignals.UpdateRotation>(OnUpdateRotation);
-        }
-
-        private void OnDestroy()
-        {
-            _signalBus.Unsubscribe<ShotSignals.UpdateRotation>(OnUpdateRotation);
-        }
-
-        private void OnUpdateRotation(ShotSignals.UpdateRotation signal)
-        {
-            _bodyTransform.rotation = Quaternion.Euler(signal.Euler);
+            _bodyTransform.localEulerAngles = euler;
         }
     }
 }
