@@ -13,6 +13,7 @@ namespace UI
         [SerializeField] private TextMeshProUGUI _scoreTMP;
         [SerializeField] private TextMeshProUGUI _levelIndexTMP;
         [SerializeField] private RectTransform _bulletContainer;
+        [SerializeField] private RectTransform _damagePointsContainer;
         [SerializeField] private Color _hiddenBulletColor;
         private List<Image> _bulletList = new List<Image>();
         private MainConfig _mainConfig;
@@ -46,6 +47,14 @@ namespace UI
         {
             _currentScore = 0f;
             _scoreTMP.text = _currentScore.ToString();
+        }
+
+        public void AddDamagePoint(Vector3 worldPoint)
+        {
+            var prefab = _mainConfig.DamagePointPrefab;
+            var point = Instantiate(prefab, _damagePointsContainer);
+            var rect = point.transform as RectTransform;
+            rect.position = Camera.main.WorldToScreenPoint(worldPoint);
         }
         
         public void SetBulletAmount(int count)

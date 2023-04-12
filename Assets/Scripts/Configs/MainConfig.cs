@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Gameplay.ShootSystem.Configs;
+using TMPro;
 using UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,11 +15,13 @@ namespace Configs
         [SerializeField] private WeaponInfo _weaponInfoPrefab;
         [SerializeField] private List<LevelConfig> _levelConfigs;
         [SerializeField] private Image _bulletIconPrefab;
+        [SerializeField] private TextMeshProUGUI _damagePointPrefab;
 
         public PointsInfo PointsInfoPrefab => _pointsInfoPrefab;
         public List<WeaponConfig> WeaponConfigs => _weaponConfigs;
         public WeaponInfo WeaponInfoPrefab => _weaponInfoPrefab;
         public List<LevelConfig> LevelConfigs => _levelConfigs;
         public Image BulletIconPrefab => _bulletIconPrefab;
+        public TextMeshProUGUI DamagePointPrefab => _damagePointPrefab;
     }
 }

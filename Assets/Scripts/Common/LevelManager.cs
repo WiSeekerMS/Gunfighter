@@ -4,6 +4,7 @@ using System.Linq;
 using Configs;
 using Gameplay.ShootSystem.Configs;
 using Gameplay.ShootSystem.Presenters;
+using Gameplay.ShotSystem.Signals;
 using UI;
 using UniRx;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace Common
         [SerializeField] private WeaponConfig _weaponConfig;
         private List<LevelConfig> _levelConfigs;
         private MainConfig _mainConfig;
+        private SignalBus _signalBus;
         private SettingsPanel _settingsPanel;
         private GameUIController _gameUIController;
         private ShotPresenter _shotPresenter;
@@ -28,11 +30,13 @@ namespace Common
         [Inject]
         private void Constructor(
             MainConfig mainConfig,
+            SignalBus signalBus,
             SettingsPanel settingsPanel,
             GameUIController gameUIController,
             ShotPresenter shotPresenter)
         {
             _mainConfig = mainConfig;
+            _signalBus = signalBus;
             _settingsPanel = settingsPanel;
             _gameUIController = gameUIController;
             _shotPresenter = shotPresenter;
@@ -46,6 +50,8 @@ namespace Common
                 .AddListener(OnClickStartButton);
             
             _levelConfigs = _mainConfig.LevelConfigs;
+            
+            _signalBus.Subscribe<ShotSignals.Hit>(OnHit);
         }
 
         private void Start()
@@ -64,6 +70,13 @@ namespace Common
                     .onClick
                     .RemoveListener(OnClickStartButton);
             }
+            
+            _signalBus.Unsubscribe<ShotSignals.Hit>(OnHit);
+        }
+
+        private void OnHit(ShotSignals.Hit signal)
+        {
+            _gameUIController.AddDamagePoint(signal.HitInfo.point);
         }
 
         private void OnClickStartButton()
