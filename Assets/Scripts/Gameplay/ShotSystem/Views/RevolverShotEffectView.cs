@@ -1,5 +1,6 @@
 ﻿using System;
 using DG.Tweening;
+using Gameplay.ShootSystem.Presenters;
 using Gameplay.ShotSystem.Signals;
 using UniRx;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace Gameplay.ShotSystem.Views
         [SerializeField] private float _drumRotateSpeed;
         [SerializeField] private float _time;
         [Inject] private SignalBus _signalBus;
+        [Inject] private ShotPresenter _shotPresenter;
         private IDisposable _timerObservable;
         private Sequence _sequence;
         private float _rotateAngle;
@@ -36,7 +38,11 @@ namespace Gameplay.ShotSystem.Views
 
         private void OnShot()
         {
-            ReleaseFlash();
+            if (_shotPresenter.BulletAmount > 0)
+            {
+                ReleaseFlash();
+            }
+            
             RotateDrum();
         }
 

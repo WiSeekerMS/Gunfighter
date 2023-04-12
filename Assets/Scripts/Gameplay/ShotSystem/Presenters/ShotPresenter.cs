@@ -26,6 +26,8 @@ namespace Gameplay.ShootSystem.Presenters
         private bool _isBlockControl = true;
         private bool _isBlockShot;
 
+        public int BulletAmount => _shootModel.BulletAmount;
+
         public ShotPresenter(
             SignalBus signalBus,
             ShootModel shootModel, 
@@ -132,13 +134,15 @@ namespace Gameplay.ShootSystem.Presenters
 
         private void OnReleaseBullet()
         {
-            if (_isBlockShot)
+            if (_isBlockControl 
+                || _isBlockShot)
             {
                 return;
             }
             
-            if (_isBlockControl
-                || _shootModel.BulletAmount <= 0)
+            _signalBus.Fire<ShotSignals.Shot>();
+            
+            if (_shootModel.BulletAmount <= 0)
             {
                 var noAmoClips = _shootModel.WeaponConfig.NoAmoClips;
                 _audioController.PlayRandomAudioClip(noAmoClips, Vector3.zero);
@@ -150,8 +154,7 @@ namespace Gameplay.ShootSystem.Presenters
  
             var shotClips = _shootModel.WeaponConfig.ShotAudioClips;
             _audioController.PlayRandomAudioClip(shotClips, Vector3.zero);
-            _signalBus.Fire<ShotSignals.Shot>();
-
+ 
             if (_shootModel.IsHit)
             {
                 _signalBus.Fire(new ShotSignals.Hit(_shootModel.HitInfo));

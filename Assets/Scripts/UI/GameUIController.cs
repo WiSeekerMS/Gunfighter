@@ -13,6 +13,7 @@ namespace UI
         [SerializeField] private TextMeshProUGUI _scoreTMP;
         [SerializeField] private TextMeshProUGUI _levelIndexTMP;
         [SerializeField] private RectTransform _bulletContainer;
+        [SerializeField] private Color _hiddenBulletColor;
         private List<Image> _bulletList = new List<Image>();
         private MainConfig _mainConfig;
         private float _currentScore;
@@ -63,13 +64,13 @@ namespace UI
 
         public void HideLastBullet()
         {
-            var lastIcon = _bulletList.LastOrDefault(i => i.enabled);
-            if (lastIcon) lastIcon.enabled = false;
+            var lastIcon = _bulletList.LastOrDefault(i => i.color == Color.white);
+            if (lastIcon) lastIcon.color = _hiddenBulletColor;
         }
 
         public void ShowAllBullets()
         {
-            _bulletList.ForEach(i => i.enabled = true);
+            _bulletList.ForEach(i => i.color = Color.white);
         }
     }
 }
