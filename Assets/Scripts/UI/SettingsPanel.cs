@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Configs;
-using Gameplay.ShootSystem.Configs;
+using Gameplay.ShotSystem.Configs;
 using UI.Base;
 using UnityEngine;
 using UnityEngine.UI;

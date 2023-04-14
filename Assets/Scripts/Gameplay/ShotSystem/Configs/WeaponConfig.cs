@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using Gameplay.ShootSystem;
 using UnityEngine;
 
-namespace Gameplay.ShootSystem.Configs
+namespace Gameplay.ShotSystem.Configs
 {
     [CreateAssetMenu(fileName = "WeaponConfig", menuName = "Configs/WeaponConfig")]
     public class WeaponConfig : ScriptableObject

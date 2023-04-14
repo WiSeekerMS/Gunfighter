@@ -1,4 +1,4 @@
-﻿using Gameplay.ShootSystem.Configs;
+﻿using Gameplay.ShotSystem.Configs;
 using UnityEngine;
 
 namespace Gameplay.ShootSystem.Models

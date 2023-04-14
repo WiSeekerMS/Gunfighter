@@ -53,7 +53,7 @@ namespace Gameplay.ShotSystem.Views
             
             _timerObservable = Observable
                 .Timer(TimeSpan.FromSeconds(_time))
-                .Subscribe(_ => _effectPS.Stop());
+                .Subscribe(_ => { _effectPS.Stop(); });
         }
 
         private void RotateDrum()

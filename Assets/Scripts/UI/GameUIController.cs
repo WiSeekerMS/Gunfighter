@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Configs;
+using Gameplay.Target.Configs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,12 +18,16 @@ namespace UI
         [SerializeField] private Color _hiddenBulletColor;
         private List<Image> _bulletList = new List<Image>();
         private MainConfig _mainConfig;
+        private TargetConfig _targetConfig;
         private float _currentScore;
 
         [Inject]
-        private void Constructor(MainConfig mainConfig)
+        private void Constructor(
+            MainConfig mainConfig, 
+            TargetConfig targetConfig)
         {
             _mainConfig = mainConfig;
+            _targetConfig = targetConfig;
         }
         
         public float CurrentScore => _currentScore;
@@ -53,8 +58,7 @@ namespace UI
         {
             var prefab = _mainConfig.DamagePointPrefab;
             var point = Instantiate(prefab, _damagePointsContainer);
-            var rect = point.transform as RectTransform;
-            rect.position = Camera.main.WorldToScreenPoint(worldPoint);
+            point.Init(worldPoint, _targetConfig);
         }
         
         public void SetBulletAmount(int count)

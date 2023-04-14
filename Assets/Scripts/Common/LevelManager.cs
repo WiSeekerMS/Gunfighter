@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Configs;
-using Gameplay.ShootSystem.Configs;
 using Gameplay.ShootSystem.Presenters;
+using Gameplay.ShotSystem.Configs;
 using Gameplay.ShotSystem.Signals;
 using UI;
 using UniRx;

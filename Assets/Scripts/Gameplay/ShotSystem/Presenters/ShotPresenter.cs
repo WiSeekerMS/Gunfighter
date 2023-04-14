@@ -1,8 +1,8 @@
 ﻿using System;
 using Common.Audio;
 using Common.InputSystem.Signals;
-using Gameplay.ShootSystem.Configs;
 using Gameplay.ShootSystem.Models;
+using Gameplay.ShotSystem.Configs;
 using Gameplay.ShotSystem.Presenters;
 using Gameplay.ShotSystem.Signals;
 using UI;
@@ -25,6 +25,7 @@ namespace Gameplay.ShootSystem.Presenters
         private IDisposable _fixedUpdateObservable;
         private bool _isBlockControl = true;
         private bool _isBlockShot;
+        private int _layerMask = 1 << 20;
 
         public int BulletAmount => _shootModel.BulletAmount;
 
@@ -124,7 +125,7 @@ namespace Gameplay.ShootSystem.Presenters
         private void OnFixedUpdate()
         {
             var ray = new Ray(_shootModel.MuzzlePosition, _shootModel.MuzzleForward);
-            _shootModel.IsHit = Physics.Raycast(ray, out var hitInfo, Mathf.Infinity);
+            _shootModel.IsHit = Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, _layerMask);
             _shootModel.HitInfo = hitInfo;
 
             if (!_shootModel.IsHit) return;
