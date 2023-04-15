@@ -1,16 +1,17 @@
 ﻿using System;
+using Common;
 using Common.Audio;
 using Common.InputSystem.Signals;
 using Gameplay.ShootSystem.Models;
+using Gameplay.ShootSystem.Presenters;
 using Gameplay.ShotSystem.Configs;
-using Gameplay.ShotSystem.Presenters;
 using Gameplay.ShotSystem.Signals;
 using UI;
 using UniRx;
 using UnityEngine;
 using Zenject;
 
-namespace Gameplay.ShootSystem.Presenters
+namespace Gameplay.ShotSystem.Presenters
 {
     public class ShotPresenter : IInitializable, IDisposable
     {
@@ -25,7 +26,8 @@ namespace Gameplay.ShootSystem.Presenters
         private IDisposable _fixedUpdateObservable;
         private bool _isBlockControl = true;
         private bool _isBlockShot;
-        private int _layerMask = 1 << 20;
+        
+        private const int LayerMask = 1 << Constants.TargetLayer | 1 << Constants.EnemyLayer;
 
         public int BulletAmount => _shootModel.BulletAmount;
 
@@ -125,7 +127,7 @@ namespace Gameplay.ShootSystem.Presenters
         private void OnFixedUpdate()
         {
             var ray = new Ray(_shootModel.MuzzlePosition, _shootModel.MuzzleForward);
-            _shootModel.IsHit = Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, _layerMask);
+            _shootModel.IsHit = Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, LayerMask);
             _shootModel.HitInfo = hitInfo;
 
             if (!_shootModel.IsHit) return;

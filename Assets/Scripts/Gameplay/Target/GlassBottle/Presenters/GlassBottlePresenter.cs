@@ -6,7 +6,7 @@ using Gameplay.Target.GlassBottle.View;
 using UnityEngine;
 using Zenject;
 
-namespace Gameplay.Target.GlassBottle
+namespace Gameplay.Target.GlassBottle.Presenters
 {
     public class GlassBottlePresenter : MonoBehaviour
     {

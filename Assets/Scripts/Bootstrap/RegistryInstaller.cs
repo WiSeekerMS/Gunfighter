@@ -12,12 +12,14 @@ namespace Bootstrap
         [SerializeField] private MainConfig _mainConfig;
         [SerializeField] private PlayerConfig _playerConfig;
         [SerializeField] private TargetConfig _targetConfig;
+        [SerializeField] private EnemyConfig _enemyConfig;
         
         public override void InstallBindings()
         {
             Container.InstallRegistry(_mainConfig);
             Container.InstallRegistry(_playerConfig);
             Container.InstallRegistry(_targetConfig);
+            Container.InstallRegistry(_enemyConfig);
         }
     }
 }
