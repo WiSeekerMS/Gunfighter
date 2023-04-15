@@ -1,5 +1,6 @@
 ﻿using Common.InputSystem.Installers;
 using Gameplay.ShotSystem.Installers;
+using Gameplay.Target.Installers;
 using Zenject;
 
 namespace Bootstrap
@@ -12,6 +13,7 @@ namespace Bootstrap
             
             Container.Install<InputInstaller>();
             Container.Install<ShotInstaller>();
+            Container.Install<TargetInstaller>();
         }
     }
 }

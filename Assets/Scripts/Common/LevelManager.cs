@@ -18,7 +18,7 @@ namespace Common
         private List<LevelConfig> _levelConfigs;
         private MainConfig _mainConfig;
         private SignalBus _signalBus;
-        private SettingsPanel _settingsPanel;
+        //private SettingsPanel _settingsPanel;
         private GameUIController _gameUIController;
         private ShotPresenter _shotPresenter;
         private int _currentLevelIndex;
@@ -31,23 +31,22 @@ namespace Common
         private void Constructor(
             MainConfig mainConfig,
             SignalBus signalBus,
-            SettingsPanel settingsPanel,
             GameUIController gameUIController,
             ShotPresenter shotPresenter)
         {
             _mainConfig = mainConfig;
             _signalBus = signalBus;
-            _settingsPanel = settingsPanel;
+            //_settingsPanel = settingsPanel;
             _gameUIController = gameUIController;
             _shotPresenter = shotPresenter;
         }
 
         private void Awake()
         {
-            _settingsPanel
+            /*_settingsPanel
                 .StartButton
                 .onClick
-                .AddListener(OnClickStartButton);
+                .AddListener(OnClickStartButton);*/
             
             _levelConfigs = _mainConfig.LevelConfigs;
             
@@ -63,13 +62,13 @@ namespace Common
         {
             _timerObservable?.Dispose();
             
-            if (_settingsPanel != null)
+            /*if (_settingsPanel != null)
             {
                 _settingsPanel
                     .StartButton
                     .onClick
                     .RemoveListener(OnClickStartButton);
-            }
+            }*/
             
             _signalBus.Unsubscribe<ShotSignals.Hit>(OnHit);
         }
@@ -93,7 +92,7 @@ namespace Common
             _shotPresenter.Prepare(_weaponConfig);
             _shotPresenter.UnlockPlayerControl();
             
-            _settingsPanel.IsVisible = false;
+            //_settingsPanel.IsVisible = false;
         }
 
         private void CheckLevelComplete()
