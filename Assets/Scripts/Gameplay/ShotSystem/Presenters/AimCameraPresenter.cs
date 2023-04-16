@@ -2,6 +2,7 @@
 using Gameplay.ShootSystem.Models;
 using Gameplay.ShotSystem.Signals;
 using Gameplay.ShotSystem.Views;
+using UnityEngine;
 using Zenject;
 
 namespace Gameplay.ShotSystem.Presenters
@@ -29,7 +30,11 @@ namespace Gameplay.ShotSystem.Presenters
         {
             _aimCameraView.Init();
             _aimCameraModel.OriginalPosition = _aimCameraView.OriginalPosition;
-            _aimCameraModel.AimingPosition = _aimCameraView.AimingPosition;
+        }
+
+        public void SetAimingPosition(Vector3 position)
+        {
+            _aimCameraModel.AimingPosition = position;
         }
 
         public void OnUpdate()

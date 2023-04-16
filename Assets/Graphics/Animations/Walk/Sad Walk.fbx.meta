@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f3cd740c30e83fa4bbd4864c760da834
+guid: 7990c5ea52335c04fac9b421207f2834
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Orc Walk
+      name: Sad Walk
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 36
+      lastFrame: 44
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

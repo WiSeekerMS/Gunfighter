@@ -9,15 +9,12 @@ namespace Gameplay.ShotSystem.Presenters
     public class BobbingPresenter : IInitializable
     {
         private readonly BobbingModel _bobbingModel;
-        private readonly SignalBus _signalBus;
         private readonly BobbingView _bobbingView;
 
         public BobbingPresenter(
-            SignalBus signalBus,
             BobbingModel bobbingModel,
             BobbingView bobbingView)
         {
-            _signalBus = signalBus;
             _bobbingModel = bobbingModel;
             _bobbingView = bobbingView;
         }

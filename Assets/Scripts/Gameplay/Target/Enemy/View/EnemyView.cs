@@ -1,5 +1,5 @@
-﻿using Gameplay.Target.Configs;
-using Gameplay.Target.Enums;
+﻿using Common;
+using Gameplay.Target.Configs;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
@@ -17,6 +17,8 @@ namespace Gameplay.Target.Enemy.View
         private NavMeshAgent _agent;
         
         private static readonly int IsKilled = Animator.StringToHash("IsKilled");
+        private static readonly int KilledAnimationIndex = Animator.StringToHash("Killed_Index");
+        private static readonly int IsMirror = Animator.StringToHash("IsMirror");
 
         private void Start()
         {
@@ -30,6 +32,11 @@ namespace Gameplay.Target.Enemy.View
 
         public void SetAnimationState(EnemyAnimationState state)
         {
+            var index = Random.Range(0, 3);
+            var isMirror = Random.value > 0.5f;
+
+            _animator.SetInteger(KilledAnimationIndex, index);
+            _animator.SetBool(IsMirror, isMirror);
             _animator.SetTrigger(IsKilled);
         }
 

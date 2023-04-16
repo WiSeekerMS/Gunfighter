@@ -15,29 +15,18 @@ namespace Gameplay.ShotSystem.Views
         [SerializeField] private ParticleSystem _effectPS;
         [SerializeField] private float _drumRotateSpeed;
         [SerializeField] private float _time;
-        [Inject] private SignalBus _signalBus;
         [Inject] private ShotPresenter _shotPresenter;
         private IDisposable _timerObservable;
         private Sequence _sequence;
         private float _rotateAngle;
         private Vector3 _euler;
 
-        private void Awake()
-        {
-            _signalBus.Subscribe<ShotSignals.Shot>(OnShot);
-        }
-
         private void Start()
         {
             _rotateAngle = 360f / 7;
         }
 
-        private void OnDestroy()
-        {
-            _signalBus.Unsubscribe<ShotSignals.Shot>(OnShot);
-        }
-
-        private void OnShot()
+        public void OnShot()
         {
             if (_shotPresenter.BulletAmount > 0)
             {

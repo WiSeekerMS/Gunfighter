@@ -98,6 +98,33 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""353848b7-d194-4a76-bc9c-27ed8de3ffa9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""16f96fb7-b882-4fc6-9ce1-4c8bc178aae6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BothWeapons"",
+                    ""type"": ""Button"",
+                    ""id"": ""b68bf262-f26e-421f-b854-8feeb12fbf2b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -276,6 +303,39 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""action"": ""ButtonAxisY"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e054c699-30ab-4935-8563-8a5fee7405c8"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bfc80913-d852-4dac-867c-5b4984845778"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1b5e7734-024b-4688-b6de-6f463b59565e"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BothWeapons"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -303,6 +363,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Main_Reload = m_Main.FindAction("Reload", throwIfNotFound: true);
         m_Main_ButtonAxisX = m_Main.FindAction("ButtonAxisX", throwIfNotFound: true);
         m_Main_ButtonAxisY = m_Main.FindAction("ButtonAxisY", throwIfNotFound: true);
+        m_Main_LeftWeapon = m_Main.FindAction("LeftWeapon", throwIfNotFound: true);
+        m_Main_RightWeapon = m_Main.FindAction("RightWeapon", throwIfNotFound: true);
+        m_Main_BothWeapons = m_Main.FindAction("BothWeapons", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -370,6 +433,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Main_Reload;
     private readonly InputAction m_Main_ButtonAxisX;
     private readonly InputAction m_Main_ButtonAxisY;
+    private readonly InputAction m_Main_LeftWeapon;
+    private readonly InputAction m_Main_RightWeapon;
+    private readonly InputAction m_Main_BothWeapons;
     public struct MainActions
     {
         private @Controls m_Wrapper;
@@ -382,6 +448,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         public InputAction @Reload => m_Wrapper.m_Main_Reload;
         public InputAction @ButtonAxisX => m_Wrapper.m_Main_ButtonAxisX;
         public InputAction @ButtonAxisY => m_Wrapper.m_Main_ButtonAxisY;
+        public InputAction @LeftWeapon => m_Wrapper.m_Main_LeftWeapon;
+        public InputAction @RightWeapon => m_Wrapper.m_Main_RightWeapon;
+        public InputAction @BothWeapons => m_Wrapper.m_Main_BothWeapons;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -415,6 +484,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @ButtonAxisY.started -= m_Wrapper.m_MainActionsCallbackInterface.OnButtonAxisY;
                 @ButtonAxisY.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnButtonAxisY;
                 @ButtonAxisY.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnButtonAxisY;
+                @LeftWeapon.started -= m_Wrapper.m_MainActionsCallbackInterface.OnLeftWeapon;
+                @LeftWeapon.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnLeftWeapon;
+                @LeftWeapon.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnLeftWeapon;
+                @RightWeapon.started -= m_Wrapper.m_MainActionsCallbackInterface.OnRightWeapon;
+                @RightWeapon.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnRightWeapon;
+                @RightWeapon.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnRightWeapon;
+                @BothWeapons.started -= m_Wrapper.m_MainActionsCallbackInterface.OnBothWeapons;
+                @BothWeapons.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnBothWeapons;
+                @BothWeapons.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnBothWeapons;
             }
             m_Wrapper.m_MainActionsCallbackInterface = instance;
             if (instance != null)
@@ -443,6 +521,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @ButtonAxisY.started += instance.OnButtonAxisY;
                 @ButtonAxisY.performed += instance.OnButtonAxisY;
                 @ButtonAxisY.canceled += instance.OnButtonAxisY;
+                @LeftWeapon.started += instance.OnLeftWeapon;
+                @LeftWeapon.performed += instance.OnLeftWeapon;
+                @LeftWeapon.canceled += instance.OnLeftWeapon;
+                @RightWeapon.started += instance.OnRightWeapon;
+                @RightWeapon.performed += instance.OnRightWeapon;
+                @RightWeapon.canceled += instance.OnRightWeapon;
+                @BothWeapons.started += instance.OnBothWeapons;
+                @BothWeapons.performed += instance.OnBothWeapons;
+                @BothWeapons.canceled += instance.OnBothWeapons;
             }
         }
     }
@@ -475,5 +562,8 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         void OnReload(InputAction.CallbackContext context);
         void OnButtonAxisX(InputAction.CallbackContext context);
         void OnButtonAxisY(InputAction.CallbackContext context);
+        void OnLeftWeapon(InputAction.CallbackContext context);
+        void OnRightWeapon(InputAction.CallbackContext context);
+        void OnBothWeapons(InputAction.CallbackContext context);
     }
 }

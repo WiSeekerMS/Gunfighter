@@ -76,6 +76,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "LeftWeapon",
+                    "type": "Button",
+                    "id": "353848b7-d194-4a76-bc9c-27ed8de3ffa9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RightWeapon",
+                    "type": "Button",
+                    "id": "16f96fb7-b882-4fc6-9ce1-4c8bc178aae6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BothWeapons",
+                    "type": "Button",
+                    "id": "b68bf262-f26e-421f-b854-8feeb12fbf2b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -254,6 +281,39 @@
                     "action": "ButtonAxisY",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "e054c699-30ab-4935-8563-8a5fee7405c8",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bfc80913-d852-4dac-867c-5b4984845778",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1b5e7734-024b-4688-b6de-6f463b59565e",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BothWeapons",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Common;
+using UnityEngine;
 
 namespace Gameplay.ShotSystem.Signals
 {
@@ -6,6 +7,12 @@ namespace Gameplay.ShotSystem.Signals
     {
         public sealed class Shot
         {
+            public WeaponState State { get; }
+
+            public Shot(WeaponState state)
+            {
+                State = state;
+            }
         }
         
         public sealed class Hit

@@ -12,6 +12,7 @@ namespace Common.InputSystem.Installers
             Container.InstallService<InputService>();
             Container.DeclareSignal<InputSignals.Shot>();
             Container.DeclareSignal<InputSignals.Reload>();
+            Container.DeclareSignal<InputSignals.ChangeWeapon>();
         }
     }
 }

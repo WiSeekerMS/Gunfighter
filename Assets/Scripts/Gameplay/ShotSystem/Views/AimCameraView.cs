@@ -8,12 +8,10 @@ namespace Gameplay.ShotSystem.Views
     {
         [SerializeField] private Camera _playerCamera;
         [SerializeField] private Transform _weaponParent;
-        [SerializeField] private Vector3 _aimingPosition;
         [Inject] private PlayerConfig _playerConfig;
         private Vector3 _originalPosition;
 
         public Vector3 OriginalPosition => _originalPosition;
-        public Vector3 AimingPosition => _aimingPosition;
 
         public void Init()
         {

@@ -28,6 +28,9 @@ namespace Common.InputSystem.Services
             _controls.Main.Quit.performed += QuitGame;
             _controls.Main.Shot.performed += OnPressedShotButton;
             _controls.Main.Reload.performed += OnPressedReloadButton;
+            _controls.Main.LeftWeapon.performed += OnPressedLeftWeaponButton;
+            _controls.Main.RightWeapon.performed += OnPressedRightWeaponButton;
+            _controls.Main.BothWeapons.performed += OnPressedBothWeaponsButton;
             _controls.Enable();
         }
 
@@ -36,6 +39,9 @@ namespace Common.InputSystem.Services
             _controls.Main.Quit.Disable();
             _controls.Main.Shot.Disable();
             _controls.Main.Reload.Disable();
+            _controls.Main.LeftWeapon.performed -= OnPressedLeftWeaponButton;
+            _controls.Main.RightWeapon.performed -= OnPressedRightWeaponButton;
+            _controls.Main.BothWeapons.performed -= OnPressedBothWeaponsButton;
             _controls.Dispose();
         }
 
@@ -47,6 +53,21 @@ namespace Common.InputSystem.Services
         private void OnPressedReloadButton(InputAction.CallbackContext context)
         {
             _signalBus.Fire<InputSignals.Reload>();
+        }
+
+        private void OnPressedLeftWeaponButton(InputAction.CallbackContext context)
+        {
+            _signalBus.Fire(new InputSignals.ChangeWeapon(WeaponState.Left));
+        }
+        
+        private void OnPressedRightWeaponButton(InputAction.CallbackContext context)
+        {
+            _signalBus.Fire(new InputSignals.ChangeWeapon(WeaponState.Right));
+        }
+        
+        private void OnPressedBothWeaponsButton(InputAction.CallbackContext context)
+        {
+            _signalBus.Fire(new InputSignals.ChangeWeapon(WeaponState.Both));
         }
         
         private void QuitGame(InputAction.CallbackContext context)

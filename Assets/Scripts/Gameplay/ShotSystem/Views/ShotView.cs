@@ -1,18 +1,16 @@
-﻿using Gameplay.ShootSystem.Presenters;
-using Gameplay.ShotSystem.Presenters;
+﻿using System.Collections.Generic;
+using Common;
 using UnityEngine;
-using Zenject;
 
-namespace Gameplay.ShootSystem.Views
+namespace Gameplay.ShotSystem.Views
 {
     public class ShotView : MonoBehaviour
     {
-        [SerializeField] private Transform _muzzleTransform;
-        [Inject] private ShotPresenter _shotPresenter;
+        [SerializeField] private List<GunView> _gunViews;
 
-        private void Start()
+        public GunView GetGunView(WeaponState state)
         {
-            _shotPresenter.SetMuzzleTransform(_muzzleTransform);
+            return _gunViews.Find(v => v.WeaponState == state);
         }
     }
 }
