@@ -20,21 +20,35 @@ namespace Gameplay.ShotSystem.Views
         
         private void Awake()
         {
-            _signalBus.Subscribe<ShotSignals.Shot>(OnShot);
+            _signalBus.Subscribe<ShotSignals.ReleaseBullet>(OnShot);
+            _signalBus.Subscribe<ShotSignals.Recoil>(OnStartRecoil);
+            _shotEffectView.AnimationStop += OnStopAnimation;
         }
 
         private void OnDestroy()
         {
-            _signalBus.Unsubscribe<ShotSignals.Shot>(OnShot);
+            _signalBus.Unsubscribe<ShotSignals.ReleaseBullet>(OnShot);
+            _signalBus.Unsubscribe<ShotSignals.Recoil>(OnStartRecoil);
+            _shotEffectView.AnimationStop -= OnStopAnimation;
         }
 
-        private void OnShot(ShotSignals.Shot signal)
+        private void OnShot(ShotSignals.ReleaseBullet signal)
         {
             if (signal.State == WeaponState.Both
                 || signal.State == _weaponState)
             {
                 _shotEffectView.OnShot();
             }
+        }
+
+        private void OnStartRecoil()
+        {
+            _shotEffectView.StartRecoil();
+        }
+
+        private void OnStopAnimation()
+        {
+            _signalBus.Fire<ShotSignals.Shot>();
         }
     }
 }

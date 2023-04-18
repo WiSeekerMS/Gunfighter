@@ -15,13 +15,13 @@ namespace Gameplay.ShotSystem.Views
 
         public void ResetPosition()
         {
-            transform.localPosition = DefaultPosition;
+            //transform.localPosition = DefaultPosition;
         }
 
         public void UpdateSwingPosition(Vector3 targetPosition, float sightShiftSpeed)
         {
-            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, 
-                targetPosition, ref _velocity, sightShiftSpeed);
+            /*transform.localPosition = Vector3.SmoothDamp(transform.localPosition, 
+                targetPosition, ref _velocity, sightShiftSpeed);*/
         }
     }
 }

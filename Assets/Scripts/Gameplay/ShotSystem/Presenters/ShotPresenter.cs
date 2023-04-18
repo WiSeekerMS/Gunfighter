@@ -60,6 +60,7 @@ namespace Gameplay.ShotSystem.Presenters
             _signalBus.Subscribe<InputSignals.Reload>(OnReload);
             _signalBus.Subscribe<InputSignals.ChangeWeapon>(OnWeaponChange);
             _signalBus.Subscribe<ShotSignals.AimingStatus>(SetBobbingValue);
+            _signalBus.Subscribe<ShotSignals.Shot>(OnShot);
         }
         
         public void Prepare(WeaponConfig config)
@@ -101,6 +102,7 @@ namespace Gameplay.ShotSystem.Presenters
             _signalBus.Unsubscribe<InputSignals.Shot>(OnReleaseBullet);
             _signalBus.Unsubscribe<InputSignals.Reload>(OnReload);
             _signalBus.Unsubscribe<InputSignals.ChangeWeapon>(OnWeaponChange);
+            _signalBus.Unsubscribe<ShotSignals.Shot>(OnShot);
             _signalBus.Unsubscribe<ShotSignals.AimingStatus>(SetBobbingValue);
         }
 
@@ -162,13 +164,18 @@ namespace Gameplay.ShotSystem.Presenters
             {
                 return;
             }
-            
-            _signalBus.Fire(new ShotSignals.Shot(_currentWeaponState));
-            
+
+            _isBlockShot = true;
+            _signalBus.Fire(new ShotSignals.ReleaseBullet(_currentWeaponState));
+        }
+
+        private void OnShot()
+        {
             if (_shootModel.BulletAmount <= 0)
             {
                 var noAmoClips = _shootModel.WeaponConfig.NoAmoClips;
                 _audioController.PlayRandomAudioClip(noAmoClips, Vector3.zero);
+                _isBlockShot = false;
                 return;
             }
 
@@ -182,6 +189,9 @@ namespace Gameplay.ShotSystem.Presenters
             {
                 _signalBus.Fire(new ShotSignals.Hit(_shootModel.HitInfo));
             }
+  
+            _signalBus.Fire<ShotSignals.Recoil>();
+            _isBlockShot = false;
         }
 
         private void OnReload()

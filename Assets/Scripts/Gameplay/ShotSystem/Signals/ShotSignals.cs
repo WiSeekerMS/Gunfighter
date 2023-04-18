@@ -5,14 +5,22 @@ namespace Gameplay.ShotSystem.Signals
 {
     public static class ShotSignals
     {
-        public sealed class Shot
+        public sealed class ReleaseBullet
         {
             public WeaponState State { get; }
 
-            public Shot(WeaponState state)
+            public ReleaseBullet(WeaponState state)
             {
                 State = state;
             }
+        }
+        
+        public sealed class Shot
+        {
+        }
+        
+        public sealed class Recoil
+        {
         }
         
         public sealed class Hit

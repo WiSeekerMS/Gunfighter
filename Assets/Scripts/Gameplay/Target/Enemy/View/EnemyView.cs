@@ -10,6 +10,7 @@ namespace Gameplay.Target.Enemy.View
     public class EnemyView : MonoBehaviour
     {
         [SerializeField] private Animator _animator;
+        [SerializeField] private int _test;
         [Inject] private EnemyConfig _enemyConfig;
         private float _enemyHP;
         private bool _isBlockDamage;
@@ -28,6 +29,8 @@ namespace Gameplay.Target.Enemy.View
             _agent = GetComponent<NavMeshAgent>();
             _agent.destination = _destination;
             _agent.speed = _enemyConfig.MoveSpeed;
+            
+            _animator.SetInteger("TestInt", _test);
         }
 
         public void SetAnimationState(EnemyAnimationState state)

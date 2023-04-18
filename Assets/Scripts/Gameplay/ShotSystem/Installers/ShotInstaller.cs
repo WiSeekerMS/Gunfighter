@@ -23,7 +23,9 @@ namespace Gameplay.ShotSystem.Installers
             Container.InstallModel<AimCameraModel>();
             Container.InstallModel<BobbingModel>();
 
+            Container.DeclareSignal<ShotSignals.ReleaseBullet>();
             Container.DeclareSignal<ShotSignals.Shot>();
+            Container.DeclareSignal<ShotSignals.Recoil>();
             Container.DeclareSignal<ShotSignals.Hit>();
             Container.DeclareSignal<ShotSignals.AimingStatus>();
 
