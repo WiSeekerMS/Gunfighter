@@ -1,7 +1,10 @@
-﻿using System;
-
-namespace Common
+﻿namespace Common
 {
+    public enum ButtonAccessLevel
+    {
+        Available, Blocked, InDeveloping    
+    }
+    
     public enum EnemyAnimationState
     {
         Walk, Dying
