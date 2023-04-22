@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections;
 using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Options;
 using Gameplay.ShotSystem.Presenters;
 using UniRx;
+using Unity.Mathematics;
 using UnityEngine;
 using Zenject;
 
@@ -14,40 +14,56 @@ namespace Gameplay.ShotSystem.Views
         [SerializeField] private Transform _drumTransform;
         [SerializeField] private Transform _hammerTransform;
         [SerializeField] private ParticleSystem _effectPS;
+        [SerializeField] private Animator _recoilAnimator;
         [SerializeField] private float _drumRotateSpeed;
-        [SerializeField] private float _hammerRotateSpeed;
         [SerializeField] private float _effectTime;
-        [SerializeField] private float _recoilRotateSpeed;
-        [SerializeField] private float _recoilShifteSpeed;
-        [SerializeField] private Vector3 _recoilEuler;
-        [SerializeField] private Vector3 _recoilPosition;
         [Inject] private ShotPresenter _shotPresenter;
         private IDisposable _timerObservable;
-        private Sequence _drumSequence;
-        private Sequence _hammerSequence;
-        private Sequence _recoilSequence;
+        private IDisposable _delayObservable;
+        private IDisposable _animationObservable;
+        private Sequence _loadGunSequence;
         private float _drumRotateAngle;
         private float _hammerRotateAngle;
-        private Vector3 _euler;
+        private Vector3 _drumEuler;
         private TimeSpan _effectDelay;
         private Vector3 _startPosition;
-        
-        private TweenerCore<Vector3, Vector3, VectorOptions> _recoilShiftTween;
-        private TweenerCore<Quaternion, Vector3, QuaternionOptions> _recoilRotateTween;
+        private AnimationEvent _stopEvent;
 
         public event Action AnimationStop;
 
         private void Start()
         {
             _drumRotateAngle = 360f / 7;
-            _hammerRotateAngle = 40f;
+            _hammerRotateAngle = 32f;
             _startPosition = transform.localPosition;
             _effectDelay = TimeSpan.FromSeconds(_effectTime);
+            
+            /*_stopEvent = new AnimationEvent();
+            _stopEvent.functionName = "Test";
+            
+            var clip = _recoilAnimator.runtimeAnimatorController.animationClips[0];
+            clip.AddEvent(_stopEvent);*/
+
+            CockTrigger(null);
         }
 
         public void OnShot()
         {
-            CockRevolver(RotateDrum);
+            ReleaseBullet();
+        }
+
+        private void ReleaseBullet()
+        {
+            if (_shotPresenter.BulletAmount <= 0)
+            {
+                AnimationStop?.Invoke();
+                //_hammerTransform.localEulerAngles = Vector3.zero;
+                //CockTrigger(() => AnimationStop?.Invoke());
+                return;
+            }
+
+            //_hammerTransform.localEulerAngles = Vector3.zero;
+            ReleaseFlash();
         }
 
         private void ReleaseFlash()
@@ -64,79 +80,140 @@ namespace Gameplay.ShotSystem.Views
                 {
                     _effectPS.Stop();
                     AnimationStop?.Invoke();
-                });
+                    //CockTrigger(() => AnimationStop?.Invoke());
+                })
+                .AddTo(this);
         }
 
-        private void RotateDrum()
+        private IEnumerator RotateDrum()
         {
-            _drumSequence?.Kill();
-            _drumSequence = DOTween.Sequence();
-            
-            _euler += Vector3.back * _drumRotateAngle;
-            if (_euler.z < -360f)
+            _drumEuler += Vector3.back * _drumRotateAngle;
+            if (_drumEuler.z < -360f)
             {
-                var z = _euler.z + 360f;
-                _euler = Vector3.forward * z;
+                var z = _drumEuler.z + 360f;
+                _drumEuler = Vector3.forward * z;
             }
+
+            var t = 0f;
+            var to = Quaternion.Euler(_drumEuler);
             
-            _drumSequence.Join(_drumTransform
-                .DOLocalRotate(_euler, _drumRotateSpeed)
-                .SetEase(Ease.Linear))
-                .OnComplete(ReleaseBullet);
+            while (t < 1f)
+            {
+                t += _drumRotateSpeed * Time.deltaTime;
+                _drumTransform.localRotation = Quaternion
+                    .LerpUnclamped(_drumTransform.localRotation, to, t);
+                
+                yield return null;
+            }
         }
 
-        private void CockRevolver(Action action)
+        private IEnumerator RotateHummer()
         {
-            _hammerSequence?.Kill();
-            _hammerSequence = DOTween.Sequence();
+            var t = 0f;
+            var clockEuler = Vector3.left * _hammerRotateAngle;
+            var to = Quaternion.Euler(clockEuler);
 
-            var euler = Vector3.left * _hammerRotateAngle;
-            _hammerSequence.Join(_hammerTransform
-                .DOLocalRotate(euler, _hammerRotateSpeed)
-                .SetEase(Ease.Linear))
+            while (t < 1f)
+            {
+                t += _drumRotateSpeed * Time.deltaTime;
+                _hammerTransform.localRotation = Quaternion
+                    .LerpUnclamped(_hammerTransform.localRotation, to, t);
+
+                yield return null;
+            }
+        }
+
+        /*private bool[] _testArray;
+
+        private bool Check()
+        {
+            if (_testArray == null)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < _testArray.Length; i++)
+            {
+                if (!_testArray[i])
+                    return false;
+            }
+
+            return true;
+        }
+        
+        private void Test(int index)
+        {
+            _testArray[index] = true;
+            if (!Check()) return;
+            print("Complite!");
+        }*/
+
+        private void LoadGun(Action action)
+        {
+            /*_testArray = new bool[2];
+            Observable.FromCoroutine(RotateDrum).Subscribe(_ => Test(0));
+            Observable.FromCoroutine(RotateDrum).Subscribe(_ => Test(1));*/
+            
+            /*if (_loadGunSequence == null)
+            {
+                _loadGunSequence = DOTween.Sequence();
+            }
+
+            if (_loadGunSequence.active)
+            {
+                _loadGunSequence.Kill();
+            }*/
+
+            /*var clockEuler = Vector3.left * _hammerRotateAngle;*/
+
+            /*_loadGunSequence
+                .Join(_drumTransform
+                    .DOLocalRotate(_drumEuler, _drumRotateSpeed)
+                    .SetEase(Ease.Linear))
+                .Join(_hammerTransform
+                    .DOLocalRotate(clockEuler, _drumRotateSpeed)
+                    .SetEase(Ease.Linear))
                 .OnComplete(() =>
                 {
-                    _hammerTransform.localEulerAngles = Vector3.zero;
                     action?.Invoke();
-                });
+                    print("WWWW");
+                });*/
+            
+            action?.Invoke();
+        }
+
+        private void CockTrigger(Action action)
+        {
+            _delayObservable?.Dispose();
+            _delayObservable = Observable
+                .Timer(TimeSpan.FromSeconds(0.3f))
+                .Subscribe(_ => LoadGun(action))
+                .AddTo(this);
+        }
+
+        /*private IEnumerator AnimationCor()
+        {
+            _recoilAnimator.SetBool("IsRecoil", true);
+            _recoilAnimator.GetCurrentAnimatorClipInfo()
+            /*_recoilAnimator.pl
+            anim.Play();
+            while (anim.isPlaying)
+                yield return null;#1#
+        }*/
+
+        private void ResetRecoilPosition()
+        {
+            /*transform.localEulerAngles = Vector3.zero;
+            transform.localPosition = _startPosition;*/
         }
 
         public void StartRecoil()
         {
-            if (_recoilSequence != null
-                && _recoilSequence.active)
-            {
-                _recoilSequence?.Kill();
-                transform.localEulerAngles = Vector3.zero;
-                transform.localPosition = _startPosition;
-            }
-            
-            _recoilSequence = DOTween.Sequence();
-            _recoilSequence.Pause();
-
-            transform.localEulerAngles = _recoilEuler;
-            transform.localPosition += _recoilPosition;
-
-            _recoilSequence.Join(transform
-                .DOLocalMove(_startPosition, _recoilShifteSpeed)
-                .SetEase(Ease.Linear));
-            
-            _recoilSequence.Join(transform
-                .DOLocalRotate(Vector3.zero, _recoilRotateSpeed)
-                .SetEase(Ease.Linear));
-            
-            _recoilSequence.Play();
-        }
-
-        private void ReleaseBullet()
-        {
-            if (_shotPresenter.BulletAmount <= 0)
-            {
-                AnimationStop?.Invoke();
-                return;
-            }
-            
-            ReleaseFlash();
+            /*_animationObservable?.Dispose();
+            _animationObservable = Observable
+                .FromCoroutine(_ => AnimationCor())
+                .Subscribe(_ => ResetRecoilPosition())
+                .AddTo(this);*/
         }
     }
 }
