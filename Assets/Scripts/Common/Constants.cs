@@ -2,6 +2,8 @@
 {
     public static class Constants
     {
+        public const string MainMenuScene = "MainMenuScene";
+        
         public const int TargetLayer = 20;
         public const int EnemyLayer = 25;
 

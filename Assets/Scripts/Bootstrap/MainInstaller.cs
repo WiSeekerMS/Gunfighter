@@ -1,7 +1,7 @@
-﻿using Common.Cheats.Installers;
+﻿using Common;
+using Common.Cheats.Installers;
+using Common.Extensions;
 using Common.InputSystem.Installers;
-using Gameplay.ShotSystem.Installers;
-using Gameplay.Target.Installers;
 using Zenject;
 
 namespace Bootstrap
@@ -11,10 +11,9 @@ namespace Bootstrap
         public override void InstallBindings()
         {
             SignalBusInstaller.Install(Container);
+            Container.InstallService<SceneLoaderService>();
             
             Container.Install<InputInstaller>();
-            Container.Install<ShotInstaller>();
-            Container.Install<TargetInstaller>();
             Container.Install<CheatsInstaller>();
         }
     }

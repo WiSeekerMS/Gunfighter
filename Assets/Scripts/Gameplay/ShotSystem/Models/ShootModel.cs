@@ -1,14 +1,13 @@
 ﻿using Gameplay.ShotSystem.Configs;
 using UnityEngine;
 
-namespace Gameplay.ShootSystem.Models
+namespace Gameplay.ShotSystem.Models
 {
     public class ShootModel
     {
         public bool IsHit { get; set; }
         public int BulletAmount { get; set; }
         public WeaponConfig WeaponConfig { get; set; }
-        public FlyingBullet BulletPrefab { get; set; }
         public RaycastHit HitInfo { get; set; }
         public Transform MuzzleTransform { get; set; }
         

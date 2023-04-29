@@ -15,14 +15,18 @@ namespace Gameplay.ShotSystem.Signals
             }
         }
         
+        public sealed class LoadGunStart
+        {
+        }
+        
+        public sealed class LoadGunComplete
+        {
+        }
+        
         public sealed class Shot
         {
         }
-        
-        public sealed class Recoil
-        {
-        }
-        
+
         public sealed class Hit
         {
             public RaycastHit HitInfo { get; }

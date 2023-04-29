@@ -1,5 +1,7 @@
 ﻿using Common.Audio;
 using Common.Extensions;
+using Gameplay.ShotSystem.Installers;
+using Gameplay.Target.Installers;
 using UI;
 using UnityEngine;
 using Zenject;
@@ -13,6 +15,9 @@ namespace Scenes.Installers
 
         public override void InstallBindings()
         {
+            Container.Install<ShotInstaller>();
+            Container.Install<TargetInstaller>();
+
             Container.InstallRegistry(_gameUIController);
             Container.InstallRegistry(_audioController);
         }

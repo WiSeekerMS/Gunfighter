@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Gameplay.ShootSystem;
 using UnityEngine;
 
 namespace Gameplay.ShotSystem.Configs
@@ -9,7 +8,6 @@ namespace Gameplay.ShotSystem.Configs
     {
         [SerializeField] private Sprite _icon;
         [SerializeField] private string _weaponName;
-        [SerializeField] private FlyingBullet _bulletPrefab;
         [SerializeField] private int _bulletAmount;
         [SerializeField] private int _bulletAmountPerShot;
         [SerializeField] private float _bobbingSmoothTime;
@@ -22,7 +20,6 @@ namespace Gameplay.ShotSystem.Configs
 
         public Sprite Icon => _icon;
         public string WeaponName => _weaponName;
-        public FlyingBullet BulletPrefab => _bulletPrefab;
         public int BulletAmount => _bulletAmount;
         public int BulletAmountPerShot => _bulletAmountPerShot;
         public float BobbingSmoothTime => _bobbingSmoothTime;

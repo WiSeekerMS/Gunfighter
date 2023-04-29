@@ -20,16 +20,23 @@ namespace Gameplay.ShotSystem.Views
         
         private void Awake()
         {
+            _signalBus.Subscribe<ShotSignals.LoadGunStart>(OnLoadGun);
             _signalBus.Subscribe<ShotSignals.ReleaseBullet>(OnShot);
-            _signalBus.Subscribe<ShotSignals.Recoil>(OnStartRecoil);
-            _shotEffectView.AnimationStop += OnStopAnimation;
+            _shotEffectView.LoadGunAnimationStop += OnStopLoadGunAnimation;
+            _shotEffectView.ReleaseAnimationStop += OnStopReleaseAnimation;
         }
 
         private void OnDestroy()
         {
+            _signalBus.Unsubscribe<ShotSignals.LoadGunStart>(OnLoadGun);
             _signalBus.Unsubscribe<ShotSignals.ReleaseBullet>(OnShot);
-            _signalBus.Unsubscribe<ShotSignals.Recoil>(OnStartRecoil);
-            _shotEffectView.AnimationStop -= OnStopAnimation;
+            _shotEffectView.LoadGunAnimationStop -= OnStopLoadGunAnimation;
+            _shotEffectView.ReleaseAnimationStop -= OnStopReleaseAnimation;
+        }
+
+        private void OnLoadGun(ShotSignals.LoadGunStart signal)
+        {
+            _shotEffectView.OnLoadGun();
         }
 
         private void OnShot(ShotSignals.ReleaseBullet signal)
@@ -37,16 +44,16 @@ namespace Gameplay.ShotSystem.Views
             if (signal.State == WeaponState.Both
                 || signal.State == _weaponState)
             {
-                _shotEffectView.OnShot();
+                _shotEffectView.ReleaseBullet();
             }
         }
 
-        private void OnStartRecoil()
+        private void OnStopLoadGunAnimation()
         {
-            _shotEffectView.StartRecoil();
+            _signalBus.Fire<ShotSignals.LoadGunComplete>();
         }
 
-        private void OnStopAnimation()
+        private void OnStopReleaseAnimation()
         {
             _signalBus.Fire<ShotSignals.Shot>();
         }

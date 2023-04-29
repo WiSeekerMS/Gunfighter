@@ -1,4 +1,7 @@
-﻿using Common;
+﻿using System;
+using Common;
+using Common.Interfaces;
+using Configs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +11,7 @@ namespace UI.MainMenu
     [RequireComponent(typeof(Button))]
     public class LevelButton : MonoBehaviour
     {
+        [SerializeField] private LevelConfig _levelConfig;
         [SerializeField] private ButtonAccessLevel _accessLevel;
         [SerializeField] private Button _button;
         [SerializeField] private Image _icon;
@@ -16,6 +20,18 @@ namespace UI.MainMenu
         [SerializeField, HideInInspector] private bool _blockOnRun;
         [SerializeField, HideInInspector] private Sprite _spriteOnRun;
         [SerializeField, HideInInspector] private int _levelIndexOnRun;
+
+        public event Action<ISceneInfo> ClickOnLevelButton;
+
+        private void Awake()
+        {
+            _button.onClick.AddListener(OnClickButton);
+        }
+
+        private void OnDestroy()
+        {
+            _button.onClick.RemoveAllListeners();
+        }
 
         private void Start()
         {
@@ -29,6 +45,11 @@ namespace UI.MainMenu
             {
                 _textMesh.text = (transform.GetSiblingIndex() + 1).ToString();
             }
+        }
+        
+        private void OnClickButton()
+        {
+            ClickOnLevelButton?.Invoke(_levelConfig);
         }
 
         #region In Editor Mode
