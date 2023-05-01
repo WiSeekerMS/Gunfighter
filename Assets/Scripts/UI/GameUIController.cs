@@ -12,7 +12,6 @@ namespace UI
     public class GameUIController : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _scoreTMP;
-        [SerializeField] private TextMeshProUGUI _levelIndexTMP;
         [SerializeField] private RectTransform _bulletContainer;
         [SerializeField] private RectTransform _damagePointsContainer;
         [SerializeField] private Color _hiddenBulletColor;
@@ -31,16 +30,6 @@ namespace UI
         }
         
         public float CurrentScore => _currentScore;
-
-        public int SetLevelIndex
-        {
-            set => _levelIndexTMP.text = $"Level: {value}";
-        }
-
-        public string SetLevelText
-        {
-            set => _levelIndexTMP.text = value;
-        }
 
         public void UpdateScore(float points)
         {

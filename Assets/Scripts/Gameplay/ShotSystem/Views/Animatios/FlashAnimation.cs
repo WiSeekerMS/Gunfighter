@@ -3,7 +3,7 @@ using Gameplay.ShotSystem.Interfaces;
 using UniRx;
 using UnityEngine;
 
-namespace Gameplay.ShotSystem.Views
+namespace Gameplay.ShotSystem.Views.Animatios
 {
     public class FlashAnimation : MonoBehaviour, IShootAnimation
     {

@@ -2,6 +2,7 @@
 using Common.Cheats.Installers;
 using Common.Extensions;
 using Common.InputSystem.Installers;
+using UI.MainMenu.Installers;
 using Zenject;
 
 namespace Bootstrap
@@ -15,6 +16,7 @@ namespace Bootstrap
             
             Container.Install<InputInstaller>();
             Container.Install<CheatsInstaller>();
+            Container.Install<MainMenuInstaller>();
         }
     }
 }

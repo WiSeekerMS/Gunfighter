@@ -1,32 +1,29 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Gameplay.Target.GlassBottle.View
 {
     public class ShardView : MonoBehaviour
     {
-        public Rigidbody Rb;
-        public Collider ShardCollider;
-        public MeshFilter Filter;
+        private Rigidbody _rb;
+        private Collider _shardCollider;
 
         private void Awake()
         {
-            Rb = GetComponent<Rigidbody>();
-            ShardCollider = GetComponent<Collider>();
-            Filter = GetComponent<MeshFilter>();
+            _rb = GetComponent<Rigidbody>();
+            _shardCollider = GetComponent<Collider>();
         }
 
         private void Start()
         {
-            ShardCollider.enabled = false;
+            _shardCollider.enabled = false;
         }
 
         public void AddForce(Vector3 vector)
         {
-            ShardCollider.enabled = true;
-            Rb.useGravity = true;
+            _shardCollider.enabled = true;
+            _rb.useGravity = true;
             var direction = (transform.position - vector).normalized; 
-            Rb.AddForce(direction * 30f, ForceMode.Impulse);
+            _rb.AddForce(direction * 30f, ForceMode.Impulse);
         }
     }
 }

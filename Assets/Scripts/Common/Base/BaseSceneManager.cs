@@ -16,6 +16,11 @@ namespace Common.Base
             _mainConfig = mainConfig;
             _levelConfigs = _mainConfig.LevelConfigs;
         }
+
+        public void LevelInitialization()
+        {
+            OnInitializationComplete();
+        }
         
         private void StartLevel()
         {
@@ -37,6 +42,10 @@ namespace Common.Base
         }
 
         #region Virtual Methods
+        protected virtual void OnInitializationComplete()
+        {
+        }
+        
         protected virtual void OnStartLevel()
         {
         }

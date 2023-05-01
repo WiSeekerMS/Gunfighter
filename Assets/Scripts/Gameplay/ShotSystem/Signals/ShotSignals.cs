@@ -7,10 +7,14 @@ namespace Gameplay.ShotSystem.Signals
     {
         public sealed class ReleaseBullet
         {
+            public int BulletAmount { get; }
             public WeaponState State { get; }
 
-            public ReleaseBullet(WeaponState state)
+            public ReleaseBullet(
+                int bulletAmount, 
+                WeaponState state)
             {
+                BulletAmount = bulletAmount;
                 State = state;
             }
         }

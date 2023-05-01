@@ -4,7 +4,7 @@ using Gameplay.ShotSystem.Interfaces;
 using UniRx;
 using UnityEngine;
 
-namespace Gameplay.ShotSystem.Views
+namespace Gameplay.ShotSystem.Views.Animatios
 {
     public class LoadGunAnimation : MonoBehaviour, IShootAnimation
     {
@@ -85,6 +85,10 @@ namespace Gameplay.ShotSystem.Views
 
         public void Stop()
         {
+            if (_loadGunSequence.active)
+                _loadGunSequence.Kill();
+            
+            _tweensCounter = 0;
         }
     }
 }

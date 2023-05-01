@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.MainMenu
+namespace UI.MainMenu.View
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(GridLayoutGroup))]

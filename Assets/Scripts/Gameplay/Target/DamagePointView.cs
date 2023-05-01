@@ -23,6 +23,8 @@ namespace Gameplay.Target
             _worldPoint = worldPoint + (Vector3)(Random.insideUnitCircle * config.SpreadRadius);
             _config = config;
 
+            _textMeshPro.text = $"${_config.DamagePoints}";
+
             Observable
                 .EveryUpdate()
                 .Subscribe(_ => OnUpdate())

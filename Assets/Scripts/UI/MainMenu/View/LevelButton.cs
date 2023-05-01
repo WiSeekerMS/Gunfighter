@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.MainMenu
+namespace UI.MainMenu.View
 {
     [RequireComponent(typeof(Button))]
     public class LevelButton : MonoBehaviour

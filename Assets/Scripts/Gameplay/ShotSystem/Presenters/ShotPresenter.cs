@@ -32,6 +32,7 @@ namespace Gameplay.ShotSystem.Presenters
 
         private const int LayerMask = 1 << Constants.TargetLayer | 1 << Constants.EnemyLayer;
 
+        public bool IsAiming => _aimCameraPresenter.IsAiming;
         public int BulletAmount => _shootModel.BulletAmount;
 
         public ShotPresenter(
@@ -60,7 +61,7 @@ namespace Gameplay.ShotSystem.Presenters
             _signalBus.Subscribe<InputSignals.Reload>(OnReload);
             _signalBus.Subscribe<InputSignals.ChangeWeapon>(OnWeaponChange);
             _signalBus.Subscribe<ShotSignals.AimingStatus>(SetBobbingValue);
-            _signalBus.Subscribe<ShotSignals.Shot>(OnShot);
+            _signalBus.Subscribe<ShotSignals.Shot>(OnAfterReleaseBullet);
             _signalBus.Subscribe<ShotSignals.LoadGunComplete>(OnLoadGunComplete);
         }
         
@@ -102,7 +103,7 @@ namespace Gameplay.ShotSystem.Presenters
             _signalBus.Unsubscribe<InputSignals.Shot>(OnReleaseBullet);
             _signalBus.Unsubscribe<InputSignals.Reload>(OnReload);
             _signalBus.Unsubscribe<InputSignals.ChangeWeapon>(OnWeaponChange);
-            _signalBus.Unsubscribe<ShotSignals.Shot>(OnShot);
+            _signalBus.Unsubscribe<ShotSignals.Shot>(OnAfterReleaseBullet);
             _signalBus.Unsubscribe<ShotSignals.LoadGunComplete>(OnLoadGunComplete);
             _signalBus.Unsubscribe<ShotSignals.AimingStatus>(SetBobbingValue);
         }
@@ -147,7 +148,7 @@ namespace Gameplay.ShotSystem.Presenters
         {
             _mouseLookPresenter.OnUpdate();
             _aimCameraPresenter.OnUpdate();
-            _bobbingPresenter.OnUpdate();
+            //_bobbingPresenter.OnUpdate();
         }
 
         private void OnFixedUpdate()
@@ -161,11 +162,6 @@ namespace Gameplay.ShotSystem.Presenters
             Debug.DrawRay(ray.origin, forward, Color.blue);
         }
 
-        private void OnLoadGunComplete()
-        {
-            _isBlockShot = false;
-        }
-
         private void OnReleaseBullet()
         {
             if (_isBlockControl 
@@ -175,17 +171,20 @@ namespace Gameplay.ShotSystem.Presenters
             }
 
             _isBlockShot = true;
-            _signalBus.Fire(new ShotSignals.ReleaseBullet(_currentWeaponState));
+            var bulletAmount = _shootModel.BulletAmount;
+            
+            FireShot();
+            
+            _signalBus.Fire(new ShotSignals.ReleaseBullet(
+                bulletAmount, _currentWeaponState));
         }
 
-        private void OnShot()
+        private void FireShot()
         {
             if (_shootModel.BulletAmount <= 0)
             {
                 var noAmoClips = _shootModel.WeaponConfig.NoAmoClips;
                 _audioController.PlayRandomAudioClip(noAmoClips, Vector3.zero);
-                _signalBus.Fire<ShotSignals.LoadGunStart>();
-                //_isBlockShot = false;
                 return;
             }
 
@@ -199,10 +198,16 @@ namespace Gameplay.ShotSystem.Presenters
             {
                 _signalBus.Fire(new ShotSignals.Hit(_shootModel.HitInfo));
             }
-  
+        }
+
+        private void OnAfterReleaseBullet()
+        {
             _signalBus.Fire<ShotSignals.LoadGunStart>();
-            //_signalBus.Fire<ShotSignals.Recoil>();
-            //_isBlockShot = false;
+        }
+        
+        private void OnLoadGunComplete()
+        {
+            _isBlockShot = false;
         }
 
         private void OnReload()

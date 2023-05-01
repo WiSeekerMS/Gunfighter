@@ -14,6 +14,8 @@ namespace Gameplay.ShotSystem.Presenters
         private readonly SignalBus _signalBus;
         private readonly AimCameraView _aimCameraView;
 
+        public bool IsAiming => _aimCameraModel.IsAim;
+        
         public AimCameraPresenter(
             SignalBus signalBus,
             AimCameraModel aimCameraModel,
