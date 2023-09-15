@@ -5,6 +5,7 @@ namespace Common
 {
     public static class Utils
     {
+#if UNITY_EDITOR
         public static Sprite GetSpriteFromPath(string path)
         {
             var asset = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
@@ -16,5 +17,6 @@ namespace Common
             
             return null;
         }
+#endif
     }
 }

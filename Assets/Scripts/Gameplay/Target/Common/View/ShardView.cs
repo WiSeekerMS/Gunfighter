@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 
-namespace Gameplay.Target.GlassBottle.View
+namespace Gameplay.Target.Common.View
 {
     public class ShardView : MonoBehaviour
     {
+        [SerializeField] private float _force = 30f;
         private Rigidbody _rb;
         private Collider _shardCollider;
 
@@ -23,7 +24,7 @@ namespace Gameplay.Target.GlassBottle.View
             _shardCollider.enabled = true;
             _rb.useGravity = true;
             var direction = (transform.position - vector).normalized; 
-            _rb.AddForce(direction * 30f, ForceMode.Impulse);
+            _rb.AddForce(direction * _force, ForceMode.Impulse);
         }
     }
 }

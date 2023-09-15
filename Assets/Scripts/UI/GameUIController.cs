@@ -21,9 +21,7 @@ namespace UI
         private float _currentScore;
 
         [Inject]
-        private void Constructor(
-            MainConfig mainConfig, 
-            TargetConfig targetConfig)
+        private void Constructor(MainConfig mainConfig, TargetConfig targetConfig)
         {
             _mainConfig = mainConfig;
             _targetConfig = targetConfig;

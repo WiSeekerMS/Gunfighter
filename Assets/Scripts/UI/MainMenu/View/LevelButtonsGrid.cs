@@ -7,6 +7,7 @@ namespace UI.MainMenu.View
     [RequireComponent(typeof(GridLayoutGroup))]
     public class LevelButtonsGrid : MonoBehaviour
     {
+#if UNITY_EDITOR
         private void OnTransformChildrenChanged()
         {
             if (Application.isPlaying) 
@@ -20,5 +21,6 @@ namespace UI.MainMenu.View
                 button.UpdateSiblingPosition(i);
             }
         }
+#endif
     }
 }

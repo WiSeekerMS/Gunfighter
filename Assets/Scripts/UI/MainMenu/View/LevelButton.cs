@@ -53,6 +53,7 @@ namespace UI.MainMenu.View
         }
 
         #region In Editor Mode
+#if UNITY_EDITOR
         public void UpdateSiblingPosition(int index)
         {
             _levelIndexOnRun = index + 1; 
@@ -111,6 +112,7 @@ namespace UI.MainMenu.View
                     break;
             }
         }
+#endif
         #endregion
     }
 }
